@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.ericliu.weather2016.R;
@@ -19,6 +20,7 @@ public class MainActivity extends DisplayViewActivity {
     private EditText etCityName;
     private Button btnSearchWeatherCondition;
     private TextView tvCityName, tvWeatherCondition;
+    private ProgressBar mProgressBar;
 
 
     @Override
@@ -41,6 +43,7 @@ public class MainActivity extends DisplayViewActivity {
         btnSearchWeatherCondition = (Button) findViewById(R.id.btnSearch);
         tvCityName = (TextView) findViewById(R.id.tvCityName);
         tvWeatherCondition = (TextView) findViewById(R.id.tvWeatherCondition);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         btnSearchWeatherCondition.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +83,11 @@ public class MainActivity extends DisplayViewActivity {
 
         } else if (RefreshDisplayEnumMainActivity.SHOW_PROGRESS_BAR.getId() == refreshDisplay.getId()) {
 
+            mProgressBar.setVisibility(View.VISIBLE);
+
         } else if (RefreshDisplayEnumMainActivity.HIDE_PROGRESS_BAR.getId() == refreshDisplay.getId()) {
+
+            mProgressBar.setVisibility(View.GONE);
 
         } else {
             throw new IllegalArgumentException("display not handled here.");

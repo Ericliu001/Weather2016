@@ -77,6 +77,7 @@ public class MainActivityPresenter extends BasePresenter {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(WeatherSpecification.ARG_WEATHER_SPECIFICATION, specification);
                 mModel.onStartModelUpdate(0, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER, bundle);
+                mDisplayView.displayData(null, MainActivity.RefreshDisplayEnumMainActivity.SHOW_PROGRESS_BAR);
             }
         }
 
