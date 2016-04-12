@@ -3,6 +3,7 @@ package com.example.ericliu.weather2016.repo;
 import android.app.Application;
 
 import com.example.ericliu.weather2016.application.MyApplication;
+import com.example.ericliu.weather2016.common.NetworkConstants;
 import com.example.ericliu.weather2016.framework.repository.Repository;
 import com.example.ericliu.weather2016.framework.repository.RepositoryResult;
 import com.example.ericliu.weather2016.framework.repository.Specification;
@@ -55,16 +56,11 @@ public class RemoteWeatherRepo implements Repository<WeatherResult> {
         String cityName = weatherSpecification.getCityName();
 
         try {
-            StringBuilder stringBuilder = new StringBuilder("http://api.openweathermap.org/data/2.5/weather?q=");
-            stringBuilder.append(cityName)
-                    .append("&appid=a1cf06c52e1cc8cd586382594c71ea0a");
-
-//            URL url = new URL(stringBuilder.toString());
 
 
-            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://api.openweathermap.org/data/2.5/weather").newBuilder();
+            HttpUrl.Builder urlBuilder = HttpUrl.parse(NetworkConstants.weatherApiBase).newBuilder();
             urlBuilder.addQueryParameter("q", cityName);
-            urlBuilder.addQueryParameter("appid", "a1cf06c52e1cc8cd586382594c71ea0a");
+            urlBuilder.addQueryParameter("appid", NetworkConstants.apikey);
             String url = urlBuilder.build().toString();
 
 

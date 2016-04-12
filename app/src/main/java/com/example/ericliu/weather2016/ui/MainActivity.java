@@ -2,11 +2,13 @@ package com.example.ericliu.weather2016.ui;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ericliu.weather2016.R;
 import com.example.ericliu.weather2016.application.MyApplication;
@@ -14,6 +16,7 @@ import com.example.ericliu.weather2016.framework.mvp.Presenter;
 import com.example.ericliu.weather2016.ui.base.DisplayViewActivity;
 import com.example.ericliu.weather2016.ui.presenter.MainActivityPresenter;
 import com.example.ericliu.weather2016.ui.viewmodel.MainActivityViewModel;
+import com.example.ericliu.weather2016.util.NetworkUtil;
 
 public class MainActivity extends DisplayViewActivity {
     private static final String VIEW_MODEL_TAG = "main.activity.viewmodel";
@@ -49,10 +52,20 @@ public class MainActivity extends DisplayViewActivity {
         btnSearchWeatherCondition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!NetworkUtil.isOnline(MainActivity.this)) {
+                    NetworkUtil.checkNetworkAndShowErrorMsg(MainActivity.this);
+                    return;
+                }
+
                 String city = etCityName.getText().toString();
-                Bundle args = new Bundle();
-                args.putString(MainActivityPresenter.ARG_CITY_NAME, city);
-                mPresenter.onUserAction(MainActivityPresenter.UserActionEnumMainActivity.BUTTON_CLICKED, args);
+                if (!TextUtils.isEmpty(city)) {
+
+                    Bundle args = new Bundle();
+                    args.putString(MainActivityPresenter.ARG_CITY_NAME, city);
+                    mPresenter.onUserAction(MainActivityPresenter.UserActionEnumMainActivity.BUTTON_CLICKED, args);
+                } else {
+                    Toast.makeText(MainActivity.this, "city name can't be empty!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

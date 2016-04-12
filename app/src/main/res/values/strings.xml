@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Weather2016</string>
+    <string name="network_error">Network Error</string>
+    <string name="network_unavailable">Please check your internet connection!</string>
 </resources>
