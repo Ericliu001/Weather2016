@@ -8,7 +8,9 @@ import com.example.ericliu.weather2016.application.MyApplication;
 import com.example.ericliu.weather2016.framework.repository.RepositoryResult;
 import com.example.ericliu.weather2016.framework.repository.Specification;
 import com.example.ericliu.weather2016.model.JSONHandler;
+import com.example.ericliu.weather2016.model.Weather;
 import com.example.ericliu.weather2016.model.WeatherResult;
+import com.example.ericliu.weather2016.model.WeatherSpecification;
 import com.example.ericliu.weather2016.repo.DbWeatherRepo;
 import com.example.ericliu.weather2016.repo.RemoteWeatherRepo;
 import com.example.ericliu.weather2016.util.ThreadUtil;
@@ -46,7 +48,7 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
 
 
     @Override
-    public WeatherResult get(Specification specification) {
+    public WeatherResult get(Specification spec) {
 
 
         // Load stub data from raw resource.
@@ -61,10 +63,21 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
 
 
                 // broadcast the result
+
+                WeatherSpecification specification = new WeatherSpecification();
+                specification.setCityName("Sydney");
+                WeatherResult weatherResult = new WeatherResult();
+                weatherResult.name = "Beijing";
+                Weather[] weather = new Weather[1];
+                weather[0] = new Weather();
+                weather[0].setDescription("Sunny");
+                weatherResult.weather = weather;
+
                 RepositoryResult<WeatherResult> repositoryResult = new RepositoryResult<>();
-                repositoryResult.setData(result);
                 repositoryResult.setSpecification(specification);
                 repositoryResult.setError(null);
+                repositoryResult.setData(weatherResult);
+
                 eventBus.post(repositoryResult);
 
                 // sync with local DB
@@ -77,7 +90,7 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
             e.printStackTrace();
         }
 
-        return super.get(specification);
+        return null;
     }
 
     @Override

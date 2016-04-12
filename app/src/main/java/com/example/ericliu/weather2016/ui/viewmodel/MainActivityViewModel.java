@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.example.ericliu.weather2016.application.MyApplication;
 import com.example.ericliu.weather2016.framework.mvp.Presenter;
 import com.example.ericliu.weather2016.framework.mvp.RequestStatus;
 import com.example.ericliu.weather2016.framework.mvp.ViewModel;
@@ -15,6 +16,7 @@ import com.example.ericliu.weather2016.service.RetrieveWeatherService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
 
@@ -34,6 +36,7 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
 
 
     public MainActivityViewModel() {
+        MyApplication.getComponent().inject(this);
     }
 
     @Override
@@ -83,8 +86,8 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
         eventBus.unregister(this);
     }
 
-    @Subscribe
-    public void onEvent(RepositoryResult repositoryResult) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onResultEvent(RepositoryResult repositoryResult) {
         Specification specification = repositoryResult.getSpecification();
 
         if (specification instanceof WeatherSpecification) {
