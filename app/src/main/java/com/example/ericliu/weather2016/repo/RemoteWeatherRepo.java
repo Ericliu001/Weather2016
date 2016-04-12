@@ -86,6 +86,8 @@ public class RemoteWeatherRepo implements Repository<WeatherResult> {
                 // sync with local db
                 mDBWeatherRepo.add(weatherResult);
                 return weatherResult;
+            } else {
+                ErrorUtil.postException(specification, new Exception("An error has occured."));
             }
         } catch (IOException e) {
             e.printStackTrace();
