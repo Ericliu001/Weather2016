@@ -5,12 +5,16 @@ import android.util.Log;
 
 import com.example.ericliu.weather2016.R;
 import com.example.ericliu.weather2016.application.MyApplication;
+import com.example.ericliu.weather2016.framework.repository.RepositoryResult;
 import com.example.ericliu.weather2016.framework.repository.Specification;
 import com.example.ericliu.weather2016.model.JSONHandler;
 import com.example.ericliu.weather2016.model.WeatherResult;
+import com.example.ericliu.weather2016.repo.DbWeatherRepo;
 import com.example.ericliu.weather2016.repo.RemoteWeatherRepo;
 import com.example.ericliu.weather2016.util.ThreadUtil;
 import com.google.gson.Gson;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +31,13 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
     Application mApplication;
 
     @Inject
+    DbWeatherRepo mDBWeatherRepo;
+
+    @Inject
     Gson mGson;
+
+    @Inject
+    EventBus eventBus;
 
 
     public StubRemoteWeatherRepo() {
@@ -48,6 +58,17 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
             ThreadUtil.sleepRandomLength();
 
             if (result != null) {
+
+
+                // broadcast the result
+                RepositoryResult<WeatherResult> repositoryResult = new RepositoryResult<>();
+                repositoryResult.setData(result);
+                repositoryResult.setSpecification(specification);
+                repositoryResult.setError(null);
+                eventBus.post(repositoryResult);
+
+                // sync with local DB
+                mDBWeatherRepo.add(result);
                 return result;
             }
 

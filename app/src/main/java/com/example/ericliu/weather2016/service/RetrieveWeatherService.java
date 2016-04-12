@@ -20,6 +20,7 @@ public class RetrieveWeatherService extends IntentService {
     private static final String TAG = RetrieveWeatherService.class.getSimpleName();
 
 
+
     @Inject
     RemoteWeatherRepo remoteWeatherRepo;
 

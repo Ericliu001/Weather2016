@@ -5,6 +5,6 @@ package com.example.ericliu.weather2016.model;
  */
 public class WeatherResult {
 
-    private Weather[] weather;
-    private String name;
+    public Weather[] weather;
+    public String name;
 }

@@ -1,11 +1,11 @@
 package com.example.ericliu.weather2016.dagger.component;
 
-import com.example.ericliu.weather2016.service.RetrieveWeatherService;
-import com.example.ericliu.weather2016.ui.MainActivity;
 import com.example.ericliu.weather2016.dagger.module.AppModule;
 import com.example.ericliu.weather2016.dagger.module.NetModule;
 import com.example.ericliu.weather2016.dagger.module.RepoModule;
+import com.example.ericliu.weather2016.service.RetrieveWeatherService;
 import com.example.ericliu.weather2016.stub.StubRemoteWeatherRepo;
+import com.example.ericliu.weather2016.ui.MainActivity;
 
 import javax.inject.Singleton;
 
@@ -20,6 +20,5 @@ import dagger.Component;
 public interface RepoComponent {
     void inject(MainActivity mainActivity);
     void inject(StubRemoteWeatherRepo repo);
-
     void inject(RetrieveWeatherService service);
 }

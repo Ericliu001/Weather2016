@@ -2,6 +2,8 @@ package com.example.ericliu.weather2016.dagger.module;
 
 import android.app.Application;
 
+import org.greenrobot.eventbus.EventBus;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -23,5 +25,10 @@ public class AppModule {
     @Singleton
     Application provideApplication() {
         return mApplication;
+    }
+
+    @Provides
+    EventBus providesEventBus(){
+        return EventBus.getDefault();
     }
 }

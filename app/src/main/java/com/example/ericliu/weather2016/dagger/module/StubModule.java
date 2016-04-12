@@ -29,4 +29,6 @@ public class StubModule {
     RemoteWeatherRepo provideRemoteWeatherRepository(){
         return new StubRemoteWeatherRepo();
     }
+
+
 }
