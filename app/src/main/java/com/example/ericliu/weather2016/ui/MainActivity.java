@@ -30,6 +30,10 @@ public class MainActivity extends DisplayViewActivity {
         setupPresenter(savedInstanceState);
 
         initViews();
+
+        if (savedInstanceState != null) {
+            mPresenter.loadInitialData(null, true);
+        }
     }
 
     private void initViews() {

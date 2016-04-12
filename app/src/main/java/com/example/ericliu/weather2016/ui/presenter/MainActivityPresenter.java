@@ -22,6 +22,7 @@ public class MainActivityPresenter extends BasePresenter {
         super(presenterId, displayView, viewModel);
     }
 
+
     @Override
     public void loadInitialData(Bundle args, boolean isConfigurationChange) {
         if (isConfigurationChange) {
@@ -42,6 +43,8 @@ public class MainActivityPresenter extends BasePresenter {
             if (requestStatus == RequestStatus.SUCESS || requestStatus == RequestStatus.FAILED) {
                 mDisplayView.displayData(null, MainActivity.RefreshDisplayEnumMainActivity.HIDE_PROGRESS_BAR);
 
+                handleWeatherUpdate(mainActivityViewModel);
+            } else {
                 handleWeatherUpdate(mainActivityViewModel);
             }
 

@@ -36,7 +36,13 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
 
 
     public MainActivityViewModel() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         MyApplication.getComponent().inject(this);
+        setRetainInstance(true);
     }
 
     @Override
