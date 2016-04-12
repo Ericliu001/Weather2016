@@ -36,7 +36,7 @@ public class MyApplication extends Application {
                 .build();
 
         // TODO: 12/04/2016 change it to use real data when development is done
-        component = stubComponent;
+        component = repoComponent;
     }
 
     public static RepoComponent getComponent() {

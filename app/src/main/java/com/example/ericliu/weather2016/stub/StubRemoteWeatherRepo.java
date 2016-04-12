@@ -91,7 +91,8 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
             Log.d(TAG, jsonStr);
         } catch (IOException e) {
             e.printStackTrace();
-            ErrorUtil.postException(e);
+            WeatherSpecification specification = new WeatherSpecification();
+            ErrorUtil.postException(specification, e);
         }
 
         return null;

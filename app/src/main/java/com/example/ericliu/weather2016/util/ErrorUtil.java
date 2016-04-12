@@ -1,7 +1,7 @@
 package com.example.ericliu.weather2016.util;
 
 import com.example.ericliu.weather2016.framework.repository.RepositoryResult;
-import com.example.ericliu.weather2016.model.WeatherSpecification;
+import com.example.ericliu.weather2016.framework.repository.Specification;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -10,9 +10,7 @@ import org.greenrobot.eventbus.EventBus;
  */
 public class ErrorUtil {
 
-    public static void postException(Exception e) {
-        WeatherSpecification specification = new WeatherSpecification();
-
+    public static void postException(Specification specification, Exception e) {
 
         RepositoryResult repositoryResult = new RepositoryResult();
         repositoryResult.setSpecification(specification);
