@@ -2,6 +2,7 @@ package com.example.ericliu.weather2016.dagger.component;
 
 
 import com.example.ericliu.weather2016.dagger.module.AppModule;
+import com.example.ericliu.weather2016.dagger.module.NetModule;
 import com.example.ericliu.weather2016.dagger.module.StubModule;
 
 import javax.inject.Singleton;
@@ -13,6 +14,6 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = {AppModule.class, StubModule.class})
+@Component(modules = {AppModule.class, StubModule.class, NetModule.class})
 public interface StubComponent extends RepoComponent {
 }

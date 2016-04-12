@@ -9,6 +9,7 @@ import com.example.ericliu.weather2016.entity.JSONHandler;
 import com.example.ericliu.weather2016.entity.WeatherResult;
 import com.example.ericliu.weather2016.framework.repository.Specification;
 import com.example.ericliu.weather2016.repo.RemoteWeatherRepo;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,6 +25,9 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
     @Inject
     Application mApplication;
 
+    @Inject
+    Gson mGson;
+
 
     public StubRemoteWeatherRepo() {
         MyApplication.getComponent().inject(this);
@@ -33,14 +37,19 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
     @Override
     public WeatherResult get(Specification specification) {
 
-        String data;
 
         // Load stub data from raw resource.
         try {
-            String bootstrapJson = JSONHandler
+            String jsonStr = JSONHandler
                     .parseResource(mApplication, R.raw.weather_by_city);
 
-            Log.d(TAG, bootstrapJson);
+            WeatherResult result = mGson.fromJson(jsonStr, WeatherResult.class);
+
+            if (result != null) {
+                return result;
+            }
+
+            Log.d(TAG, jsonStr);
         } catch (IOException e) {
             e.printStackTrace();
         }
