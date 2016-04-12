@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.ericliu.weather2016.entity;
+package com.example.ericliu.weather2016.model;
 
 import android.content.ContentProviderOperation;
 import android.content.Context;

@@ -4,7 +4,7 @@ package com.example.ericliu.weather2016.stub;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.example.ericliu.weather2016.entity.WeatherResult;
+import com.example.ericliu.weather2016.model.WeatherResult;
 
 import org.junit.After;
 import org.junit.Before;

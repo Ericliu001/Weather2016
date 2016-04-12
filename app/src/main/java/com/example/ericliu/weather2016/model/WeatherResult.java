@@ -1,4 +1,4 @@
-package com.example.ericliu.weather2016.entity;
+package com.example.ericliu.weather2016.model;
 
 /**
  * Created by ericliu on 12/04/2016.

@@ -5,10 +5,11 @@ import android.util.Log;
 
 import com.example.ericliu.weather2016.R;
 import com.example.ericliu.weather2016.application.MyApplication;
-import com.example.ericliu.weather2016.entity.JSONHandler;
-import com.example.ericliu.weather2016.entity.WeatherResult;
 import com.example.ericliu.weather2016.framework.repository.Specification;
+import com.example.ericliu.weather2016.model.JSONHandler;
+import com.example.ericliu.weather2016.model.WeatherResult;
 import com.example.ericliu.weather2016.repo.RemoteWeatherRepo;
+import com.example.ericliu.weather2016.util.ThreadUtil;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -44,6 +45,7 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
                     .parseResource(mApplication, R.raw.weather_by_city);
 
             WeatherResult result = mGson.fromJson(jsonStr, WeatherResult.class);
+            ThreadUtil.sleepRandomLength();
 
             if (result != null) {
                 return result;

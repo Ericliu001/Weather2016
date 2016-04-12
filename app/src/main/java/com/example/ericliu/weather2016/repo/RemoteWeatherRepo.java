@@ -1,6 +1,6 @@
 package com.example.ericliu.weather2016.repo;
 
-import com.example.ericliu.weather2016.entity.WeatherResult;
+import com.example.ericliu.weather2016.model.WeatherResult;
 import com.example.ericliu.weather2016.framework.repository.Repository;
 import com.example.ericliu.weather2016.framework.repository.Specification;
 
