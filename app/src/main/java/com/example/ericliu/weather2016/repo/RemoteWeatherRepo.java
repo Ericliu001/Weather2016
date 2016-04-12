@@ -8,6 +8,7 @@ import com.example.ericliu.weather2016.framework.repository.RepositoryResult;
 import com.example.ericliu.weather2016.framework.repository.Specification;
 import com.example.ericliu.weather2016.model.WeatherResult;
 import com.example.ericliu.weather2016.model.WeatherSpecification;
+import com.example.ericliu.weather2016.util.ErrorUtil;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
@@ -92,6 +93,8 @@ public class RemoteWeatherRepo implements Repository<WeatherResult> {
             }
         } catch (IOException e) {
             e.printStackTrace();
+
+            ErrorUtil.postException(specification, e);
         }
 
         return null;
