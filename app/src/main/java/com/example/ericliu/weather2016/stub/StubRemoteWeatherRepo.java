@@ -62,7 +62,6 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
             if (result != null) {
 
 
-                // broadcast the result
 
                 WeatherSpecification specification = new WeatherSpecification();
                 specification.setCityName("Sydney");
@@ -75,9 +74,12 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
 
                 RepositoryResult<WeatherResult> repositoryResult = new RepositoryResult<>();
                 repositoryResult.setSpecification(specification);
-                repositoryResult.setError(null);
+                repositoryResult.setThrowable(null);
                 repositoryResult.setData(weatherResult);
+                repositoryResult.setThrowable(null);
 
+
+                // broadcast the result
                 eventBus.post(repositoryResult);
 
                 // sync with local DB
@@ -88,9 +90,20 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
             Log.d(TAG, jsonStr);
         } catch (IOException e) {
             e.printStackTrace();
+            postException(e);
         }
 
         return null;
+    }
+
+    private void postException(Exception e) {
+        WeatherSpecification specification = new WeatherSpecification();
+
+
+        RepositoryResult repositoryResult = new RepositoryResult();
+        repositoryResult.setSpecification(specification);
+        repositoryResult.setThrowable(e);
+        eventBus.post(repositoryResult);
     }
 
     @Override

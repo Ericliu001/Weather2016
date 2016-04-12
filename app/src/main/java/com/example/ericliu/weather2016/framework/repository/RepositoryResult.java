@@ -6,7 +6,7 @@ package com.example.ericliu.weather2016.framework.repository;
 public class RepositoryResult<T> {
     private  Specification specification;
     private T data;
-    private Object error;
+    private Throwable throwable;
 
     public Specification getSpecification() {
         return specification;
@@ -24,12 +24,12 @@ public class RepositoryResult<T> {
         this.data = data;
     }
 
-    public Object getError() {
-        return error;
+    public Throwable getThrowable() {
+        return throwable;
     }
 
-    public void setError(Object error) {
-        this.error = error;
+    public void setThrowable(Throwable throwable) {
+        this.throwable = throwable;
     }
 
 

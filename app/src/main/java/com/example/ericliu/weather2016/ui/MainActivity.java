@@ -1,5 +1,6 @@
 package com.example.ericliu.weather2016.ui;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -89,15 +90,29 @@ public class MainActivity extends DisplayViewActivity {
 
             mProgressBar.setVisibility(View.GONE);
 
-        } else {
+        } else if (RefreshDisplayEnumMainActivity.SHOW_DIALOG.getId() == refreshDisplay.getId()) {
+
+            String errorMessage = (String) element;
+            displayDialog(errorMessage);
+
+        }else {
             throw new IllegalArgumentException("display not handled here.");
         }
 
     }
 
+    private void displayDialog(String errorMessage) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(errorMessage)
+                .setPositiveButton(android.R.string.ok, null);
+
+        builder.create().show();
+
+    }
+
 
     public enum RefreshDisplayEnumMainActivity implements Presenter.RefreshDisplayEnum {
-        SHOW_PROGRESS_BAR, HIDE_PROGRESS_BAR, SHOW_WEATHER_CONDITION, SHOW_CITY_NAME;
+        SHOW_PROGRESS_BAR, HIDE_PROGRESS_BAR, SHOW_WEATHER_CONDITION, SHOW_CITY_NAME, SHOW_DIALOG;
 
         @Override
         public int getId() {

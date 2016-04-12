@@ -30,6 +30,12 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
     private String city;
     private String weatherCondition;
 
+    public Throwable getThrowable() {
+        return mThrowable;
+    }
+
+    private Throwable mThrowable;
+
     @Inject
     EventBus eventBus;
     private Presenter mPresenter;
@@ -43,6 +49,14 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
         super.onCreate(savedInstanceState);
         MyApplication.getComponent().inject(this);
         setRetainInstance(true);
+        resetFields();
+    }
+
+    private void resetFields() {
+        mRequestStatus = RequestStatus.NOT_STARTED;
+        city = null;
+        weatherCondition = null;
+        mThrowable = null;
     }
 
     @Override
@@ -94,14 +108,16 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onResultEvent(RepositoryResult repositoryResult) {
+
         Specification specification = repositoryResult.getSpecification();
 
         if (specification instanceof WeatherSpecification) {
             handleWeatherResult((WeatherResult) repositoryResult.getData());
-            if (repositoryResult.getError() == null) {
+            if (repositoryResult.getThrowable() == null) {
                 mRequestStatus = RequestStatus.SUCESS;
             } else {
                 mRequestStatus = RequestStatus.FAILED;
+                mThrowable = repositoryResult.getThrowable();
             }
 
             mPresenter.onUpdateComplete(this, QueryEnumMainActivity.UPDATE_WEATHER);

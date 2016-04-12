@@ -36,14 +36,22 @@ public class MainActivityPresenter extends BasePresenter {
     @Override
     public void onUpdateComplete(ViewModel viewModel, ViewModel.QueryEnum query) {
 
+        MainActivityViewModel mainActivityViewModel = (MainActivityViewModel) viewModel;
 
         if (MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER.getId() == query.getId()) {
-            MainActivityViewModel mainActivityViewModel = (MainActivityViewModel) viewModel;
             RequestStatus requestStatus = mainActivityViewModel.getRequestStatus();
-            if (requestStatus == RequestStatus.SUCESS || requestStatus == RequestStatus.FAILED) {
+            if (requestStatus == RequestStatus.SUCESS) {
                 mDisplayView.displayData(null, MainActivity.RefreshDisplayEnumMainActivity.HIDE_PROGRESS_BAR);
 
                 handleWeatherUpdate(mainActivityViewModel);
+            } else if (requestStatus == RequestStatus.FAILED) {
+
+                Throwable throwable = mainActivityViewModel.getThrowable();
+                String errorMessage = throwable.getMessage();
+
+                mDisplayView.displayData(null, MainActivity.RefreshDisplayEnumMainActivity.HIDE_PROGRESS_BAR);
+                mDisplayView.displayData(errorMessage, MainActivity.RefreshDisplayEnumMainActivity.SHOW_DIALOG);
+
             } else {
                 handleWeatherUpdate(mainActivityViewModel);
             }
