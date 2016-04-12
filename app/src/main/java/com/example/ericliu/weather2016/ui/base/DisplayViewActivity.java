@@ -14,18 +14,6 @@ public abstract class DisplayViewActivity extends Activity implements DisplayVie
 
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mPresenter.onViewCreated();
-    }
-
-    @Override
-    protected void onPause() {
-        mPresenter.onViewDestroyed();
-        super.onPause();
-    }
-
-    @Override
     public void setPresenter(Presenter presenter) {
         mPresenter = presenter;
     }

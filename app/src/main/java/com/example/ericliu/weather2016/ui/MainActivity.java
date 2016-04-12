@@ -34,12 +34,18 @@ public class MainActivity extends DisplayViewActivity {
         MyApplication.getComponent().inject(this);
 
         setupPresenter(savedInstanceState);
-
         initViews();
+        mPresenter.onViewCreated();
 
         if (savedInstanceState != null) {
             mPresenter.loadInitialData(null, true);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mPresenter.onViewDestroyed();
+        super.onDestroy();
     }
 
     private void initViews() {
