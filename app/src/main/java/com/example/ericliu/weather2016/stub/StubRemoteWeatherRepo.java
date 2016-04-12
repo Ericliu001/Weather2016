@@ -13,6 +13,7 @@ import com.example.ericliu.weather2016.model.WeatherResult;
 import com.example.ericliu.weather2016.model.WeatherSpecification;
 import com.example.ericliu.weather2016.repo.DbWeatherRepo;
 import com.example.ericliu.weather2016.repo.RemoteWeatherRepo;
+import com.example.ericliu.weather2016.util.ErrorUtil;
 import com.example.ericliu.weather2016.util.ThreadUtil;
 import com.google.gson.Gson;
 
@@ -90,21 +91,13 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
             Log.d(TAG, jsonStr);
         } catch (IOException e) {
             e.printStackTrace();
-            postException(e);
+            ErrorUtil.postException(e);
         }
 
         return null;
     }
 
-    private void postException(Exception e) {
-        WeatherSpecification specification = new WeatherSpecification();
 
-
-        RepositoryResult repositoryResult = new RepositoryResult();
-        repositoryResult.setSpecification(specification);
-        repositoryResult.setThrowable(e);
-        eventBus.post(repositoryResult);
-    }
 
     @Override
     public void add(WeatherResult item) {
