@@ -1,6 +1,7 @@
 package com.example.ericliu.weather2016.repo;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.example.ericliu.weather2016.application.MyApplication;
 import com.example.ericliu.weather2016.common.NetworkConstants;
@@ -82,6 +83,8 @@ public class RemoteWeatherRepo implements Repository<WeatherResult> {
                 repositoryResult.setData(weatherResult);
                 repositoryResult.setThrowable(null);
                 eventBus.post(repositoryResult);
+
+                Log.d(TAG, repositoryResult.toString());
 
                 // sync with local db
                 mDBWeatherRepo.add(weatherResult);

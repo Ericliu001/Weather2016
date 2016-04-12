@@ -50,6 +50,9 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
         MyApplication.getComponent().inject(this);
         setRetainInstance(true);
         resetFields();
+
+        eventBus.register(this);
+
     }
 
     private void resetFields() {
@@ -93,16 +96,13 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        eventBus.register(this);
-    }
+
+
 
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
         eventBus.unregister(this);
     }
 
