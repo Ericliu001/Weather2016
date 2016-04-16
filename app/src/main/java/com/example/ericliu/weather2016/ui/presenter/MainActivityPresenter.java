@@ -31,9 +31,7 @@ public class MainActivityPresenter extends BasePresenter {
         if (isConfigurationChange) {
             onUpdateComplete(mModel, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER);
         } else {
-//            mDisplayView.displayData(null, MainActivity.RefreshDisplayEnumMainActivity.SHOW_PROGRESS_BAR);
-
-            ViewUpdateDispatcher.INSTANCE.refreshDisplayElement(mDisplayView, SHOW_PROGRESS_BAR, null);
+            ViewUpdateDispatcher.INSTANCE.refreshDisplayElement(mDisplayView, SHOW_PROGRESS_BAR);
             mModel.onInitialModelUpdate(0, args);
         }
     }
@@ -47,8 +45,7 @@ public class MainActivityPresenter extends BasePresenter {
         if (MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER.getId() == query.getId()) {
             RequestStatus requestStatus = mainActivityViewModel.getRequestStatus();
             if (requestStatus == RequestStatus.SUCESS) {
-//                mDisplayView.displayData(null, MainActivity.RefreshDisplayEnumMainActivity.HIDE_PROGRESS_BAR);
-                ViewUpdateDispatcher.INSTANCE.refreshDisplayElement(mDisplayView, HIDE_PROGRESS_BAR, null);
+                ViewUpdateDispatcher.INSTANCE.refreshDisplayElement(mDisplayView, HIDE_PROGRESS_BAR);
 
 
                 handleWeatherUpdate(mainActivityViewModel);
@@ -57,10 +54,7 @@ public class MainActivityPresenter extends BasePresenter {
                 Throwable throwable = mainActivityViewModel.getThrowable();
                 String errorMessage = throwable.getMessage();
 
-//                mDisplayView.displayData(null, MainActivity.RefreshDisplayEnumMainActivity.HIDE_PROGRESS_BAR);
-//                mDisplayView.displayData(errorMessage, MainActivity.RefreshDisplayEnumMainActivity.SHOW_DIALOG);
-
-                ViewUpdateDispatcher.INSTANCE.refreshDisplayElement(mDisplayView, HIDE_PROGRESS_BAR, null);
+                ViewUpdateDispatcher.INSTANCE.refreshDisplayElement(mDisplayView, HIDE_PROGRESS_BAR);
                 ViewUpdateDispatcher.INSTANCE.refreshDisplayElement(mDisplayView, SHOW_DIALOG, errorMessage);
 
 
@@ -76,19 +70,16 @@ public class MainActivityPresenter extends BasePresenter {
 
     private void handleWeatherUpdate(MainActivityViewModel viewModel) {
         if (viewModel.getRequestStatus() == RequestStatus.LOADING) {
-//            mDisplayView.displayData(null, MainActivity.RefreshDisplayEnumMainActivity.SHOW_PROGRESS_BAR);
 
-            ViewUpdateDispatcher.INSTANCE.refreshDisplayElement(mDisplayView, SHOW_PROGRESS_BAR, null);
+            ViewUpdateDispatcher.INSTANCE.refreshDisplayElement(mDisplayView, SHOW_PROGRESS_BAR);
 
 
         } else {
 
             String city = viewModel.getCity();
-//            mDisplayView.displayData(city, MainActivity.RefreshDisplayEnumMainActivity.SHOW_CITY_NAME);
             ViewUpdateDispatcher.INSTANCE.refreshDisplayElement(mDisplayView, SHOW_CITY_NAME, city);
 
             String weatherCondition = viewModel.getWeatherCondition();
-//            mDisplayView.displayData(weatherCondition, MainActivity.RefreshDisplayEnumMainActivity.SHOW_WEATHER_CONDITION);
 
             ViewUpdateDispatcher.INSTANCE.refreshDisplayElement(mDisplayView, SHOW_WEATHER_CONDITION, weatherCondition);
 
@@ -105,9 +96,8 @@ public class MainActivityPresenter extends BasePresenter {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(WeatherSpecification.ARG_WEATHER_SPECIFICATION, specification);
                 mModel.onStartModelUpdate(0, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER, bundle);
-//                mDisplayView.displayData(null, MainActivity.RefreshDisplayEnumMainActivity.SHOW_PROGRESS_BAR);
 
-                ViewUpdateDispatcher.INSTANCE.refreshDisplayElement(mDisplayView, SHOW_PROGRESS_BAR, null);
+                ViewUpdateDispatcher.INSTANCE.refreshDisplayElement(mDisplayView, SHOW_PROGRESS_BAR);
             }
         }
 

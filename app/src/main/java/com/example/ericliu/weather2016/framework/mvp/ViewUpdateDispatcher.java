@@ -71,6 +71,10 @@ public enum ViewUpdateDispatcher {
     }
 
 
+    public void refreshDisplayElement(DisplayView displayView, int id) {
+        refreshDisplayElement(displayView, id, null);
+    }
+
     public void refreshDisplayElement(DisplayView displayView, int id, Object element) {
 
         Class<?> displayViewClazz = displayView.getClass();
