@@ -21,7 +21,7 @@ public enum ViewUpdateDispatcher {
     private final Map<Class<?>, List<Method>> methodsByDisplayViewClass = new HashMap<Class<?>, List<Method>>();
 
 
-    public void register(DisplayView displayView) {
+    private void register(DisplayView displayView) {
         Class<?> displayViewClazz = displayView.getClass();
 
         if (methodsByDisplayViewClass.containsKey(displayViewClazz)) {
@@ -75,7 +75,7 @@ public enum ViewUpdateDispatcher {
 
         Class<?> displayViewClazz = displayView.getClass();
         if (!methodsByDisplayViewClass.containsKey(displayViewClazz)) {
-            throw new NoClassDefFoundError("This DisplayView has never been registered.");
+            register(displayView);
         }
 
         List<Method> methodList = methodsByDisplayViewClass.get(displayViewClazz);
