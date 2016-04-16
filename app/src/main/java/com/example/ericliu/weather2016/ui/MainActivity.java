@@ -12,7 +12,8 @@ import android.widget.Toast;
 
 import com.example.ericliu.weather2016.R;
 import com.example.ericliu.weather2016.application.MyApplication;
-import com.example.ericliu.weather2016.framework.mvp.Presenter;
+import com.example.ericliu.weather2016.framework.mvp.DisplayElement;
+import com.example.ericliu.weather2016.framework.mvp.ViewUpdateDispatcher;
 import com.example.ericliu.weather2016.ui.base.DisplayViewActivity;
 import com.example.ericliu.weather2016.ui.presenter.MainActivityPresenter;
 import com.example.ericliu.weather2016.ui.viewmodel.MainActivityViewModel;
@@ -32,6 +33,8 @@ public class MainActivity extends DisplayViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MyApplication.getComponent().inject(this);
+        ViewUpdateDispatcher.INSTANCE.register(this);
+
 
         setupPresenter(savedInstanceState);
         initViews();
@@ -88,37 +91,35 @@ public class MainActivity extends DisplayViewActivity {
         mPresenter = new MainActivityPresenter(0, this, viewModelFragment);
     }
 
-
-    @Override
-    public void displayData(Object element, Presenter.RefreshDisplayEnum refreshDisplay) {
-        if (RefreshDisplayEnumMainActivity.SHOW_CITY_NAME.getId() == refreshDisplay.getId()) {
-
-            String cityName = (String) element;
-            tvCityName.setText(cityName);
-
-        } else if (RefreshDisplayEnumMainActivity.SHOW_WEATHER_CONDITION.getId() == refreshDisplay.getId()) {
-
-            String weatherCondition = (String) element;
-            tvWeatherCondition.setText(weatherCondition);
-
-        } else if (RefreshDisplayEnumMainActivity.SHOW_PROGRESS_BAR.getId() == refreshDisplay.getId()) {
-
-            mProgressBar.setVisibility(View.VISIBLE);
-
-        } else if (RefreshDisplayEnumMainActivity.HIDE_PROGRESS_BAR.getId() == refreshDisplay.getId()) {
-
-            mProgressBar.setVisibility(View.GONE);
-
-        } else if (RefreshDisplayEnumMainActivity.SHOW_DIALOG.getId() == refreshDisplay.getId()) {
-
-            String errorMessage = (String) element;
-            displayDialog(errorMessage);
-
-        }else {
-            throw new IllegalArgumentException("display not handled here.");
-        }
-
+    @DisplayElement(id = MainActivityPresenter.SHOW_CITY_NAME)
+    public void showCityName(String city) {
+        Toast.makeText(this, city, Toast.LENGTH_SHORT).show();
+        tvCityName.setText(city);
     }
+
+    @DisplayElement(id = MainActivityPresenter.SHOW_WEATHER_CONDITION)
+    public void showWeatherCondition(String weatherCondition) {
+        tvWeatherCondition.setText(weatherCondition);
+    }
+
+
+    @DisplayElement(id = MainActivityPresenter.SHOW_DIALOG)
+    public void showDialog(String message) {
+        displayDialog(message);
+    }
+
+
+    @DisplayElement(id = MainActivityPresenter.HIDE_PROGRESS_BAR)
+    public void hideProgressBar() {
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+
+    @DisplayElement(id = MainActivityPresenter.SHOW_PROGRESS_BAR)
+    public void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
 
     private void displayDialog(String errorMessage) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -130,12 +131,4 @@ public class MainActivity extends DisplayViewActivity {
     }
 
 
-    public enum RefreshDisplayEnumMainActivity implements Presenter.RefreshDisplayEnum {
-        SHOW_PROGRESS_BAR, HIDE_PROGRESS_BAR, SHOW_WEATHER_CONDITION, SHOW_CITY_NAME, SHOW_DIALOG;
-
-        @Override
-        public int getId() {
-            return this.ordinal();
-        }
-    }
 }

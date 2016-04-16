@@ -5,10 +5,8 @@ package com.example.ericliu.weather2016.framework.mvp;
  */
 public interface DisplayView {
 
-    void displayData(Object element, Presenter.RefreshDisplayEnum refreshDisplay);
 
     void setPresenter(Presenter presenter);
-
 
 
 }
