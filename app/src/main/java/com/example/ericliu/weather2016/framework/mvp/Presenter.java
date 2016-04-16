@@ -50,10 +50,5 @@ public interface Presenter {
 
     }
 
-    /**
-     * Created by ericliu on 20/01/2016.
-     */
-    interface RefreshDisplayEnum {
-        int getId();
-    }
+
 }
