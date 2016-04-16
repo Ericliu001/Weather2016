@@ -91,7 +91,6 @@ public class MainActivity extends DisplayViewActivity {
 
     @DisplayElement(id = MainActivityPresenter.SHOW_CITY_NAME)
     public void showCityName(String city) {
-        Toast.makeText(this, city, Toast.LENGTH_SHORT).show();
         tvCityName.setText(city);
     }
 

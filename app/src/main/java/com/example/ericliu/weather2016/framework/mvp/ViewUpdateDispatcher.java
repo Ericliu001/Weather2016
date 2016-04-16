@@ -92,18 +92,12 @@ public enum ViewUpdateDispatcher {
             }
 
             Class<?>[] parameterTypes = method.getParameterTypes();
-            if (parameterTypes.length == 1) {
-                Class<?> elementType = parameterTypes[0];
 
-                if (!element.getClass().equals(elementType)) {
-                    throw new IllegalArgumentException("the parameter type is not the same as the registered method parameter " + elementType.getName());
-                }
-            }
             try {
                 if (parameterTypes.length == 1) {
                     Class<?> elementType = parameterTypes[0];
 
-                    if (!element.getClass().equals(elementType)) {
+                    if (element != null && !element.getClass().equals(elementType)) {
                         throw new IllegalArgumentException("the parameter type is not the same as the registered method parameter " + elementType.getName());
                     }
                     method.invoke(displayView, element);
