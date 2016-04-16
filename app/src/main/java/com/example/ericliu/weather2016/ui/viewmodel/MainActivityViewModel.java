@@ -22,6 +22,10 @@ import javax.inject.Inject;
 
 /**
  * Created by ericliu on 12/04/2016.
+ *
+ * The ViewModel is a Fragment with on UI. The main reason to choose a Fragment as the implementation is that a Fragment
+ * Can survive configuration changes by setting setRetainInstance(true);
+ * And a Fragment gets access to Context for free.
  */
 public class MainActivityViewModel extends Fragment implements ViewModel {
 
