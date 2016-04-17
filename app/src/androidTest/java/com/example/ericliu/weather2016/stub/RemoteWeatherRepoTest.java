@@ -5,7 +5,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.example.ericliu.weather2016.model.WeatherResult;
-import com.example.ericliu.weather2016.mock.StubRemoteWeatherRepo;
+import com.example.ericliu.weather2016.repo.RemoteWeatherRepo;
 
 import org.junit.After;
 import org.junit.Before;
@@ -20,15 +20,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 @SmallTest
 @RunWith(AndroidJUnit4.class)
-public class StubRemoteWeatherRepoTest {
+public class RemoteWeatherRepoTest {
 
 
 
-    StubRemoteWeatherRepo repo;
+    RemoteWeatherRepo repo;
 
     @Before
     public void setUp() throws Exception {
-        repo = new StubRemoteWeatherRepo();
+        repo = new RemoteWeatherRepo();
     }
 
     @After

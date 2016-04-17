@@ -4,7 +4,7 @@ import com.example.ericliu.weather2016.dagger.component.DaggerStubComponent;
 import com.example.ericliu.weather2016.dagger.component.StubComponent;
 import com.example.ericliu.weather2016.dagger.module.AppModule;
 import com.example.ericliu.weather2016.dagger.module.NetModule;
-import com.example.ericliu.weather2016.dagger.module.StubModule;
+import com.example.ericliu.weather2016.dagger.module.RepoModule;
 
 /**
  * Created by ericliu on 12/04/2016.
@@ -21,7 +21,7 @@ public class MyApplication extends BaseApplication {
 
 
         StubComponent stubComponent = DaggerStubComponent.builder()
-                .stubModule(new StubModule())
+                .repoModule(new RepoModule())
                 .appModule(new AppModule(MyApplication.this))
                 .netModule(new NetModule())
                 .build();
