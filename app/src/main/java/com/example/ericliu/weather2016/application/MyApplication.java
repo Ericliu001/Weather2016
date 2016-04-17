@@ -11,7 +11,7 @@ import com.example.ericliu.weather2016.dagger.module.RepoModule;
 /**
  * Created by ericliu on 12/04/2016.
  */
-public class MyApplication extends BaseApplication {
+public class MyApplication extends Application {
 
     private static RepoComponent component;
 
@@ -25,13 +25,6 @@ public class MyApplication extends BaseApplication {
                 .netModule(new NetModule())
                 .build();
 
-//        StubComponent stubComponent = DaggerStubComponent.builder()
-//                .stubModule(new StubModule())
-//                .appModule(new AppModule(this))
-//                .netModule(new NetModule())
-//                .build();
-//
-//        // TODO: 12/04/2016 change it to use real data when development is done
         component = repoComponent;
     }
 
