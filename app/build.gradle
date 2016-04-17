@@ -19,6 +19,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        mock {
+            applicationIdSuffix = ".mock"
+            versionName "1.0-mock"
+        }
+        full {
+            applicationIdSuffix = ".full"
+            versionName "1.0-full"
+        }
+    }
 }
 
 dependencies {

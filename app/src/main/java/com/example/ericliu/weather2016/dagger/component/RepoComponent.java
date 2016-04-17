@@ -5,7 +5,6 @@ import com.example.ericliu.weather2016.dagger.module.NetModule;
 import com.example.ericliu.weather2016.dagger.module.RepoModule;
 import com.example.ericliu.weather2016.repo.RemoteWeatherRepo;
 import com.example.ericliu.weather2016.service.RetrieveWeatherService;
-import com.example.ericliu.weather2016.stub.StubRemoteWeatherRepo;
 import com.example.ericliu.weather2016.ui.MainActivity;
 import com.example.ericliu.weather2016.ui.viewmodel.MainActivityViewModel;
 
@@ -22,7 +21,6 @@ import dagger.Component;
 public interface RepoComponent {
     void inject(MainActivity mainActivity);
     void inject(RemoteWeatherRepo repo);
-    void inject(StubRemoteWeatherRepo repo);
     void inject(RetrieveWeatherService service);
     void inject(MainActivityViewModel mainActivityViewModel);
 }
