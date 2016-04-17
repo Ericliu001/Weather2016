@@ -4,8 +4,6 @@ import android.app.Application;
 
 import org.greenrobot.eventbus.EventBus;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -22,7 +20,6 @@ public class AppModule {
     }
 
     @Provides
-    @Singleton
     Application provideApplication() {
         return mApplication;
     }

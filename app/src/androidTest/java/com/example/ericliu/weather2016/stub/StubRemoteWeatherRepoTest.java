@@ -5,6 +5,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.example.ericliu.weather2016.model.WeatherResult;
+import com.example.ericliu.weather2016.mock.StubRemoteWeatherRepo;
 
 import org.junit.After;
 import org.junit.Before;

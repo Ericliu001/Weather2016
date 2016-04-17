@@ -1,7 +1,7 @@
-package com.example.ericliu.weather2016.stub;
+package com.example.ericliu.weather2016.mock;
 
-import com.example.ericliu.weather2016.model.WeatherResult;
 import com.example.ericliu.weather2016.framework.repository.Specification;
+import com.example.ericliu.weather2016.model.WeatherResult;
 import com.example.ericliu.weather2016.repo.DbWeatherRepo;
 
 import java.util.List;

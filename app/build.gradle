@@ -21,12 +21,12 @@ android {
     }
 
     productFlavors {
-        stub {
-            applicationId "com.example.ericliu.weather2016.stub"
-            versionName "1.0-demo"
+        mock {
+            applicationIdSuffix = ".mock"
+            versionName "1.0-mock"
         }
         full {
-            applicationId "com.example.ericliu.weather2016.full"
+            applicationIdSuffix = ".full"
             versionName "1.0-full"
         }
     }

@@ -42,8 +42,8 @@ public abstract class JSONHandler {
 
     public abstract void process(JsonElement element);
 
-    public static String parseResource(Context context, int resource) throws IOException {
-        InputStream is = context.getResources().openRawResource(resource);
+    public static String parseResource(Context context, String filename) throws IOException {
+        InputStream is = context.getAssets().open(filename);
         Writer writer = new StringWriter();
         char[] buffer = new char[1024];
         try {

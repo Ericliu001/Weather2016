@@ -2,8 +2,8 @@ package com.example.ericliu.weather2016.dagger.module;
 
 import com.example.ericliu.weather2016.repo.DbWeatherRepo;
 import com.example.ericliu.weather2016.repo.RemoteWeatherRepo;
-import com.example.ericliu.weather2016.stub.StubDbWeatherRepo;
-import com.example.ericliu.weather2016.stub.StubRemoteWeatherRepo;
+import com.example.ericliu.weather2016.mock.StubDbWeatherRepo;
+import com.example.ericliu.weather2016.mock.StubRemoteWeatherRepo;
 
 import javax.inject.Singleton;
 

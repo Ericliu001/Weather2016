@@ -1,9 +1,8 @@
-package com.example.ericliu.weather2016.stub;
+package com.example.ericliu.weather2016.mock;
 
 import android.app.Application;
 import android.util.Log;
 
-import com.example.ericliu.weather2016.R;
 import com.example.ericliu.weather2016.application.MyApplication;
 import com.example.ericliu.weather2016.framework.repository.RepositoryResult;
 import com.example.ericliu.weather2016.framework.repository.Specification;
@@ -55,7 +54,7 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
         // Load stub data from raw resource.
         try {
             String jsonStr = JSONHandler
-                    .parseResource(mApplication, R.raw.weather_by_city);
+                    .parseResource(mApplication, "weather_by_city.json");
 
             WeatherResult result = mGson.fromJson(jsonStr, WeatherResult.class);
             ThreadUtil.sleepRandomLength();
