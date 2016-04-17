@@ -67,7 +67,7 @@ public class MainActivityViewModelTest implements Presenter{
         repositoryResult.setThrowable(null);
         repositoryResult.setData(weatherResult);
 
-        mModel.onEvent(repositoryResult);
+        mModel.onResultEvent(repositoryResult);
     }
 
 

@@ -19,6 +19,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        stub {
+            applicationId "com.example.ericliu.weather2016.stub"
+            versionName "1.0-demo"
+        }
+        full {
+            applicationId "com.example.ericliu.weather2016.full"
+            versionName "1.0-full"
+        }
+    }
 }
 
 dependencies {
