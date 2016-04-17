@@ -3,6 +3,7 @@ package com.example.ericliu.weather2016.repo;
 import android.app.Application;
 import android.util.Log;
 
+import com.example.ericliu.weather2016.R;
 import com.example.ericliu.weather2016.application.MyApplication;
 import com.example.ericliu.weather2016.framework.repository.Repository;
 import com.example.ericliu.weather2016.framework.repository.RepositoryResult;
@@ -53,7 +54,7 @@ public class RemoteWeatherRepo implements Repository<WeatherResult> {
         // Load stub data from raw resource.
         try {
             String jsonStr = JSONHandler
-                    .parseResource(mApplication, "weather_by_city.json");
+                    .parseResource(mApplication, R.raw.weather_by_city);
 
             WeatherResult result = mGson.fromJson(jsonStr, WeatherResult.class);
             ThreadUtil.sleepRandomLength();
