@@ -1,5 +1,21 @@
 # Weather2016
-An new weather app to demonstrate the patterns that can be used in Android development
+An new weather app to demonstrate the patterns that can be used in Android development.
+
+There are 2 productFlavors: full is normal flavor which retrieves real data from the server; mock is using mock data from a json file saved in the assets.
+
+
+
+
+    productFlavors {
+        mock {
+            applicationIdSuffix = ".mock"
+            versionName "1.0-mock"
+        }
+        full {
+            applicationIdSuffix = ".full"
+            versionName "1.0-full"
+        }
+    }
 
 
 
