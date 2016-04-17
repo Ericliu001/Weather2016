@@ -1,17 +1,16 @@
-package com.example.ericliu.weather2016.mock;
+package com.example.ericliu.weather2016.repo;
 
 import android.app.Application;
 import android.util.Log;
 
 import com.example.ericliu.weather2016.application.MyApplication;
+import com.example.ericliu.weather2016.framework.repository.Repository;
 import com.example.ericliu.weather2016.framework.repository.RepositoryResult;
 import com.example.ericliu.weather2016.framework.repository.Specification;
 import com.example.ericliu.weather2016.model.JSONHandler;
 import com.example.ericliu.weather2016.model.Weather;
 import com.example.ericliu.weather2016.model.WeatherResult;
 import com.example.ericliu.weather2016.model.WeatherSpecification;
-import com.example.ericliu.weather2016.repo.DbWeatherRepo;
-import com.example.ericliu.weather2016.repo.RemoteWeatherRepo;
 import com.example.ericliu.weather2016.util.ErrorUtil;
 import com.example.ericliu.weather2016.util.ThreadUtil;
 import com.google.gson.Gson;
@@ -26,9 +25,9 @@ import javax.inject.Inject;
 /**
  * Created by ericliu on 12/04/2016.
  */
-public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
+public class RemoteWeatherRepo implements Repository<WeatherResult> {
 
-    private static final String TAG = StubRemoteWeatherRepo.class.getSimpleName();
+    private static final String TAG = RemoteWeatherRepo.class.getSimpleName();
     @Inject
     Application mApplication;
 
@@ -42,7 +41,7 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
     EventBus eventBus;
 
 
-    public StubRemoteWeatherRepo() {
+    public RemoteWeatherRepo() {
         MyApplication.getComponent().inject(this);
     }
 
@@ -101,31 +100,26 @@ public class StubRemoteWeatherRepo extends RemoteWeatherRepo {
 
     @Override
     public void add(WeatherResult item) {
-        super.add(item);
     }
 
     @Override
     public void add(Iterable<WeatherResult> items) {
-        super.add(items);
     }
 
     @Override
     public void update(WeatherResult item) {
-        super.update(item);
     }
 
     @Override
     public void remove(WeatherResult item) {
-        super.remove(item);
     }
 
     @Override
     public void remove(Specification specification) {
-        super.remove(specification);
     }
 
     @Override
     public List<WeatherResult> query(Specification specification) {
-        return super.query(specification);
+        return null;
     }
 }
