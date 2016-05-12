@@ -45,9 +45,6 @@ public interface Presenter {
      * user clicks a specific button.
      */
     interface UserActionEnum {
-
-        int getId();
-
     }
 
 

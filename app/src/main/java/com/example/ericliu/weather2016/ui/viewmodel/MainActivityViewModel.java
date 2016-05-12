@@ -22,7 +22,7 @@ import javax.inject.Inject;
 
 /**
  * Created by ericliu on 12/04/2016.
- *
+ * <p/>
  * The ViewModel is a Fragment with on UI. The main reason to choose a Fragment as the implementation is that a Fragment
  * Can survive configuration changes by setting setRetainInstance(true);
  * And a Fragment gets access to Context for free.
@@ -76,16 +76,20 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
     public void onStartModelUpdate(int presenterId, QueryEnum update, @Nullable Bundle args) {
         mRequestStatus = RequestStatus.LOADING;
 
-        if (QueryEnumMainActivity.UPDATE_WEATHER.getId() == update.getId()) {
-            WeatherSpecification specification = (WeatherSpecification) args.getSerializable(WeatherSpecification.ARG_WEATHER_SPECIFICATION);
+        if (update instanceof QueryEnumMainActivity) {
+            if (QueryEnumMainActivity.UPDATE_WEATHER == update) {
+                WeatherSpecification specification = (WeatherSpecification) args.getSerializable(WeatherSpecification.ARG_WEATHER_SPECIFICATION);
 
-            if (specification != null) {
-                RetrieveWeatherService.start(getActivity(), specification);
+                if (specification != null) {
+                    RetrieveWeatherService.start(getActivity(), specification);
+                }
+
             }
 
         } else {
             throw new IllegalArgumentException("query not handled here");
         }
+
 
     }
 
@@ -98,10 +102,6 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
     public void setPresenter(int presenterId, Presenter presenter) {
         mPresenter = presenter;
     }
-
-
-
-
 
 
     @Override
@@ -156,12 +156,6 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
 
     public enum QueryEnumMainActivity implements QueryEnum {
         UPDATE_WEATHER;
-
-
-        @Override
-        public int getId() {
-            return this.ordinal();
-        }
     }
 
 }

@@ -12,13 +12,12 @@ import android.widget.Toast;
 
 import com.example.ericliu.weather2016.R;
 import com.example.ericliu.weather2016.application.MyApplication;
-import com.example.ericliu.weather2016.framework.mvp.DisplayElement;
 import com.example.ericliu.weather2016.ui.base.DisplayViewActivity;
 import com.example.ericliu.weather2016.ui.presenter.MainActivityPresenter;
 import com.example.ericliu.weather2016.ui.viewmodel.MainActivityViewModel;
 import com.example.ericliu.weather2016.util.NetworkUtil;
 
-public class MainActivity extends DisplayViewActivity {
+public class MainActivity extends DisplayViewActivity implements MainActivityPresenter.HomepageCallbacks{
     private static final String VIEW_MODEL_TAG = "main.activity.viewmodel";
 
     private EditText etCityName;
@@ -89,30 +88,30 @@ public class MainActivity extends DisplayViewActivity {
         mPresenter = new MainActivityPresenter(0, this, viewModelFragment);
     }
 
-    @DisplayElement(id = MainActivityPresenter.SHOW_CITY_NAME)
+    @Override
     public void showCityName(String city) {
         tvCityName.setText(city);
     }
 
-    @DisplayElement(id = MainActivityPresenter.SHOW_WEATHER_CONDITION)
+    @Override
     public void showWeatherCondition(String weatherCondition) {
         tvWeatherCondition.setText(weatherCondition);
     }
 
 
-    @DisplayElement(id = MainActivityPresenter.SHOW_DIALOG)
+    @Override
     public void showDialog(String message) {
         displayDialog(message);
     }
 
 
-    @DisplayElement(id = MainActivityPresenter.HIDE_PROGRESS_BAR)
+    @Override
     public void hideProgressBar() {
         mProgressBar.setVisibility(View.GONE);
     }
 
 
-    @DisplayElement(id = MainActivityPresenter.SHOW_PROGRESS_BAR)
+    @Override
     public void showProgressBar() {
         mProgressBar.setVisibility(View.VISIBLE);
     }

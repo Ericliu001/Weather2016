@@ -37,9 +37,5 @@ public interface ViewModel {
      * Represents a update request to update the display
      */
     interface QueryEnum {
-        /**
-         * @return the id of the update request
-         */
-        int getId();
     }
 }
