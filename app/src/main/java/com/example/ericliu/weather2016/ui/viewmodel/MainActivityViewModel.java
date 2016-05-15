@@ -121,7 +121,9 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
                     public void onError(Throwable error) {
                         mRequestStatus = RequestStatus.FAILED;
                         // TODO: 15/05/2016  display error message
+                        mThrowable = error;
                         Log.e(TAG, error.getMessage());
+                        mPresenter.onUpdateComplete(MainActivityViewModel.this, QueryEnumMainActivity.UPDATE_WEATHER);
                     }
                 });
     }

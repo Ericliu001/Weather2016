@@ -12,11 +12,8 @@ import com.example.ericliu.weather2016.model.JSONHandler;
 import com.example.ericliu.weather2016.model.Weather;
 import com.example.ericliu.weather2016.model.WeatherResult;
 import com.example.ericliu.weather2016.model.WeatherSpecification;
-import com.example.ericliu.weather2016.util.ErrorUtil;
 import com.example.ericliu.weather2016.util.ThreadUtil;
 import com.google.gson.Gson;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,9 +35,6 @@ public class RemoteWeatherRepo implements Repository<WeatherResult> {
     @Inject
     Gson mGson;
 
-    @Inject
-    EventBus eventBus;
-
 
     public RemoteWeatherRepo() {
         MyApplication.getComponent().inject(this);
@@ -48,55 +42,42 @@ public class RemoteWeatherRepo implements Repository<WeatherResult> {
 
 
     @Override
-    public WeatherResult get(Specification spec) {
+    public WeatherResult get(Specification spec) throws IOException {
 
 
-        // Load stub data from raw resource.
-        try {
-            String jsonStr = JSONHandler
-                    .parseResource(mApplication, R.raw.weather_by_city);
+        String jsonStr = JSONHandler
+                .parseResource(mApplication, R.raw.weather_by_city);
 
-            WeatherResult result = mGson.fromJson(jsonStr, WeatherResult.class);
-            ThreadUtil.sleepRandomLength();
+        WeatherResult result = mGson.fromJson(jsonStr, WeatherResult.class);
+        ThreadUtil.sleepRandomLength();
 
-            if (result != null) {
+        if (result != null) {
 
 
-
-                WeatherSpecification specification = new WeatherSpecification();
-                specification.setCityName("Sydney");
-                WeatherResult weatherResult = new WeatherResult();
-                weatherResult.name = "Beijing";
-                Weather[] weather = new Weather[1];
-                weather[0] = new Weather();
-                weather[0].setDescription("Sunny");
-                weatherResult.weather = weather;
-
-                RepositoryResult<WeatherResult> repositoryResult = new RepositoryResult<>();
-                repositoryResult.setSpecification(specification);
-                repositoryResult.setThrowable(null);
-                repositoryResult.setData(weatherResult);
-                repositoryResult.setThrowable(null);
-
-
-                // broadcast the result
-                eventBus.post(repositoryResult);
-
-                // sync with local DB
-                mDBWeatherRepo.add(result);
-                return result;
-            }
-
-            Log.d(TAG, jsonStr);
-        } catch (IOException e) {
-            e.printStackTrace();
             WeatherSpecification specification = new WeatherSpecification();
-            ErrorUtil.postException(specification, e);
+            specification.setCityName("Sydney");
+            WeatherResult weatherResult = new WeatherResult();
+            weatherResult.name = "Beijing";
+            Weather[] weather = new Weather[1];
+            weather[0] = new Weather();
+            weather[0].setDescription("Sunny");
+            weatherResult.weather = weather;
+
+            RepositoryResult<WeatherResult> repositoryResult = new RepositoryResult<>();
+            repositoryResult.setSpecification(specification);
+            repositoryResult.setThrowable(null);
+            repositoryResult.setData(weatherResult);
+            repositoryResult.setThrowable(null);
+
+//            throw new IOException("Ha ha ha, Exception mocked!");
+
+            return result;
         }
+
+        Log.d(TAG, jsonStr);
 
         return null;
     }
-
 
 
     @Override
