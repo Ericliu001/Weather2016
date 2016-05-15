@@ -22,3 +22,16 @@ There are 2 productFlavors: full is normal flavor which retrieves real data from
 
 
 ![Alt text](https://docs.google.com/uc?export=download&id=0BwmSBnU6HzgSTzdSQ2RpVG5Jalk "Optional title")
+
+
+
+Libraries
+---------
+
+Gson - https://github.com/google/gson
+
+OkHttp - http://square.github.io/okhttp
+
+RxAndroid - https://github.com/ReactiveX/RxAndroid
+
+Dagger2 - http://google.github.io/dagger/
