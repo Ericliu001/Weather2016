@@ -5,6 +5,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.example.ericliu.weather2016.model.WeatherResult;
+import com.example.ericliu.weather2016.model.WeatherSpecification;
 import com.example.ericliu.weather2016.repo.RemoteWeatherRepo;
 
 import org.junit.After;
@@ -39,7 +40,9 @@ public class RemoteWeatherRepoTest {
 
     @Test
     public void testGet() throws Exception {
-        WeatherResult result = repo.get(null);
+        WeatherSpecification specification = new WeatherSpecification();
+        specification.setCityName("Sydney");
+        WeatherResult result = repo.get(specification);
 
 
         assertThat(result, notNullValue());

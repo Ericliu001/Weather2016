@@ -10,10 +10,7 @@ import com.example.ericliu.weather2016.framework.repository.RepositoryResult;
 import com.example.ericliu.weather2016.framework.repository.Specification;
 import com.example.ericliu.weather2016.model.WeatherResult;
 import com.example.ericliu.weather2016.model.WeatherSpecification;
-import com.example.ericliu.weather2016.util.ErrorUtil;
 import com.google.gson.Gson;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,8 +36,6 @@ public class RemoteWeatherRepo implements Repository<WeatherResult> {
     @Inject
     Gson mGson;
 
-    @Inject
-    EventBus eventBus;
 
     @Inject
     OkHttpClient mOkHttpClient;
@@ -52,11 +47,14 @@ public class RemoteWeatherRepo implements Repository<WeatherResult> {
 
 
     @Override
-    public WeatherResult get(Specification specification) {
+    public WeatherResult get(Specification specification) throws IOException {
+        if (specification == null) {
+            return null;
+        }
+
         WeatherSpecification weatherSpecification = (WeatherSpecification) specification;
         String cityName = weatherSpecification.getCityName();
 
-        try {
 
 
             HttpUrl.Builder urlBuilder = HttpUrl.parse(NetworkConstants.weatherApiBase).newBuilder();
@@ -82,21 +80,13 @@ public class RemoteWeatherRepo implements Repository<WeatherResult> {
                 repositoryResult.setSpecification(specification);
                 repositoryResult.setData(weatherResult);
                 repositoryResult.setThrowable(null);
-                eventBus.post(repositoryResult);
 
                 Log.d(TAG, repositoryResult.toString());
 
-                // sync with local db
-                mDBWeatherRepo.add(weatherResult);
                 return weatherResult;
             } else {
-                ErrorUtil.postException(specification, new Exception("An error has occured."));
+                // TODO: 15/05/2016  throw exception
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            ErrorUtil.postException(specification, e);
-        }
 
         return null;
     }

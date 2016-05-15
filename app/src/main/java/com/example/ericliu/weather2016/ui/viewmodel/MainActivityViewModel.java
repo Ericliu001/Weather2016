@@ -3,22 +3,25 @@ package com.example.ericliu.weather2016.ui.viewmodel;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.example.ericliu.weather2016.application.MyApplication;
 import com.example.ericliu.weather2016.framework.mvp.Presenter;
 import com.example.ericliu.weather2016.framework.mvp.RequestStatus;
 import com.example.ericliu.weather2016.framework.mvp.ViewModel;
-import com.example.ericliu.weather2016.framework.repository.RepositoryResult;
-import com.example.ericliu.weather2016.framework.repository.Specification;
 import com.example.ericliu.weather2016.model.WeatherResult;
 import com.example.ericliu.weather2016.model.WeatherSpecification;
-import com.example.ericliu.weather2016.service.RetrieveWeatherService;
+import com.example.ericliu.weather2016.repo.RemoteWeatherRepo;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
+
+import rx.Single;
+import rx.SingleSubscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by ericliu on 12/04/2016.
@@ -30,9 +33,11 @@ import javax.inject.Inject;
 public class MainActivityViewModel extends Fragment implements ViewModel {
 
 
+    private static final String TAG = MainActivityViewModel.class.getSimpleName();
     private RequestStatus mRequestStatus = RequestStatus.NOT_STARTED;
     private String city;
     private String weatherCondition;
+    private Subscription mWeatherResultSubscripton;
 
     public Throwable getThrowable() {
         return mThrowable;
@@ -41,7 +46,8 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
     private Throwable mThrowable;
 
     @Inject
-    EventBus eventBus;
+    RemoteWeatherRepo remoteWeatherRepo;
+
     private Presenter mPresenter;
 
 
@@ -54,8 +60,6 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
         MyApplication.getComponent().inject(this);
         setRetainInstance(true);
         resetFields();
-
-        eventBus.register(this);
 
     }
 
@@ -81,7 +85,9 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
                 WeatherSpecification specification = (WeatherSpecification) args.getSerializable(WeatherSpecification.ARG_WEATHER_SPECIFICATION);
 
                 if (specification != null) {
-                    RetrieveWeatherService.start(getActivity(), specification);
+//                    RetrieveWeatherService.start(getActivity(), specification);
+
+                    retrieveWeather(specification);
                 }
 
             }
@@ -91,6 +97,33 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
         }
 
 
+    }
+
+    private void retrieveWeather(final WeatherSpecification specification) {
+        Single<WeatherResult> weatherResultSingle = Single.fromCallable(new Callable<WeatherResult>() {
+            @Override
+            public WeatherResult call() throws Exception {
+                return remoteWeatherRepo.get(specification);
+            }
+        });
+
+        mWeatherResultSubscripton = weatherResultSingle
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<WeatherResult>() {
+                    @Override
+                    public void onSuccess(WeatherResult value) {
+                        mRequestStatus = RequestStatus.SUCESS;
+                        onResultEvent(value);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        mRequestStatus = RequestStatus.FAILED;
+                        // TODO: 15/05/2016  display error message
+                        Log.e(TAG, error.getMessage());
+                    }
+                });
     }
 
     @Override
@@ -107,25 +140,15 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        eventBus.unregister(this);
+        if (mWeatherResultSubscripton != null && !mWeatherResultSubscripton.isUnsubscribed()) {
+            mWeatherResultSubscripton.unsubscribe();
+        }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onResultEvent(RepositoryResult repositoryResult) {
+    public void onResultEvent(WeatherResult repositoryResult) {
 
-        Specification specification = repositoryResult.getSpecification();
-
-        if (specification instanceof WeatherSpecification) {
-            handleWeatherResult((WeatherResult) repositoryResult.getData());
-            if (repositoryResult.getThrowable() == null) {
-                mRequestStatus = RequestStatus.SUCESS;
-            } else {
-                mRequestStatus = RequestStatus.FAILED;
-                mThrowable = repositoryResult.getThrowable();
-            }
-
-            mPresenter.onUpdateComplete(this, QueryEnumMainActivity.UPDATE_WEATHER);
-        }
+        handleWeatherResult(repositoryResult);
+        mPresenter.onUpdateComplete(this, QueryEnumMainActivity.UPDATE_WEATHER);
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.ericliu.weather2016.framework.repository;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  */
 
 public interface Repository<T> {
-    T get(Specification specification);
+    T get(Specification specification) throws IOException;
 
     void add(T item);
 
