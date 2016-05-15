@@ -7,7 +7,6 @@ import android.support.test.runner.AndroidJUnit4;
 import com.example.ericliu.weather2016.framework.mvp.DisplayView;
 import com.example.ericliu.weather2016.framework.mvp.Presenter;
 import com.example.ericliu.weather2016.framework.mvp.ViewModel;
-import com.example.ericliu.weather2016.framework.repository.RepositoryResult;
 import com.example.ericliu.weather2016.framework.repository.Specification;
 import com.example.ericliu.weather2016.model.Weather;
 import com.example.ericliu.weather2016.model.WeatherResult;
@@ -62,12 +61,8 @@ public class MainActivityViewModelTest implements Presenter{
         weather[0].setDescription("Sunny");
         weatherResult.weather = weather;
 
-        RepositoryResult<WeatherResult> repositoryResult = new RepositoryResult<>();
-        repositoryResult.setSpecification(mSpecification);
-        repositoryResult.setThrowable(null);
-        repositoryResult.setData(weatherResult);
 
-        mModel.onResultEvent(repositoryResult);
+        mModel.onResultEvent(weatherResult);
     }
 
 
