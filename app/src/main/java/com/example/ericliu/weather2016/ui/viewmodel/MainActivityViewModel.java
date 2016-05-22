@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.ericliu.weather2016.application.MyApplication;
 import com.example.ericliu.weather2016.framework.mvp.Presenter;
+import com.example.ericliu.weather2016.framework.mvp.RequestResult;
 import com.example.ericliu.weather2016.framework.mvp.RequestStatus;
 import com.example.ericliu.weather2016.framework.mvp.ViewModel;
 import com.example.ericliu.weather2016.model.WeatherResult;
@@ -35,16 +36,34 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
 
 
     private static final String TAG = MainActivityViewModel.class.getSimpleName();
-    private RequestStatus mRequestStatus = RequestStatus.NOT_STARTED;
-    private String city;
-    private String weatherCondition;
+    private WeatherRequestResult mWeatherRequestResult = new WeatherRequestResult();
     private Subscription mWeatherResultSubscripton;
 
-    public Throwable getThrowable() {
-        return mThrowable;
+    public static class WeatherRequestResult implements RequestResult {
+
+        public RequestStatus getRequestStatus() {
+            return mRequestStatus;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public String getWeatherCondition() {
+            return weatherCondition;
+        }
+
+        public Throwable getThrowable() {
+            return mThrowable;
+        }
+
+        private RequestStatus mRequestStatus = RequestStatus.NOT_STARTED;
+        private String city;
+        private String weatherCondition;
+        private Throwable mThrowable;
+
     }
 
-    private Throwable mThrowable;
 
     @Inject
     RemoteWeatherRepo remoteWeatherRepo;
@@ -65,17 +84,14 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
     }
 
     private void resetFields() {
-        mRequestStatus = RequestStatus.NOT_STARTED;
-        city = null;
-        weatherCondition = null;
-        mThrowable = null;
+        mWeatherRequestResult = new WeatherRequestResult();
     }
 
 
     @Override
     public void onStartModelUpdate(int presenterId, QueryEnum update, @Nullable Bundle args) {
-
-        mRequestStatus = RequestStatus.LOADING;
+        mWeatherRequestResult = new WeatherRequestResult();
+        mWeatherRequestResult.mRequestStatus = RequestStatus.LOADING;
 
         if (update instanceof QueryEnumMainActivity) {
             if (QueryEnumMainActivity.UPDATE_WEATHER == update) {
@@ -96,6 +112,22 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
 
     }
 
+    @Override
+    public RequestResult getRequestResult(QueryEnum queryEnum) {
+        if (queryEnum instanceof QueryEnumMainActivity) {
+
+            if (queryEnum == QueryEnumMainActivity.UPDATE_WEATHER) {
+
+                return mWeatherRequestResult;
+            }
+                return null;
+
+        } else {
+            throw new IllegalArgumentException("queryEnum must be an instance of QueryEnumMainActivity.");
+        }
+    }
+
+
     private void retrieveWeather(final WeatherSpecification specification) {
         Single<WeatherResult> weatherResultSingle = Single.fromCallable(new Callable<WeatherResult>() {
             @Override
@@ -111,28 +143,24 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
                 .subscribe(new SingleSubscriber<WeatherResult>() {
                     @Override
                     public void onSuccess(WeatherResult value) {
-                        mRequestStatus = RequestStatus.SUCESS;
+                        mWeatherRequestResult.mRequestStatus = RequestStatus.SUCESS;
                         onResultEvent(value);
                         EspressoIdlingResource.decrement();
                     }
 
                     @Override
                     public void onError(Throwable error) {
-                        mRequestStatus = RequestStatus.FAILED;
+                        mWeatherRequestResult.mRequestStatus = RequestStatus.FAILED;
                         // TODO: 15/05/2016  display error message
-                        mThrowable = error;
+                        mWeatherRequestResult.mThrowable = error;
                         Log.e(TAG, error.getMessage());
-                        mPresenter.onUpdateComplete(MainActivityViewModel.this, QueryEnumMainActivity.UPDATE_WEATHER);
+                        mPresenter.onUpdateComplete(mWeatherRequestResult, QueryEnumMainActivity.UPDATE_WEATHER);
                         EspressoIdlingResource.decrement();
 
                     }
                 });
     }
 
-    @Override
-    public RequestStatus getRequestStatus(QueryEnum update) {
-        return mRequestStatus;
-    }
 
     @Override
     public void setPresenter(int presenterId, Presenter presenter) {
@@ -151,7 +179,7 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
     public void onResultEvent(WeatherResult repositoryResult) {
 
         handleWeatherResult(repositoryResult);
-        mPresenter.onUpdateComplete(this, QueryEnumMainActivity.UPDATE_WEATHER);
+        mPresenter.onUpdateComplete(mWeatherRequestResult, QueryEnumMainActivity.UPDATE_WEATHER);
 
     }
 
@@ -159,23 +187,12 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
         if (weatherResult == null) {
             return;
         }
-        city = weatherResult.name;
+        mWeatherRequestResult.city = weatherResult.name;
         if (weatherResult.weather != null && weatherResult.weather.length > 0) {
-            weatherCondition = weatherResult.weather[0].getDescription();
+            mWeatherRequestResult.weatherCondition = weatherResult.weather[0].getDescription();
         }
 
     }
-
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getWeatherCondition() {
-        return weatherCondition;
-    }
-
-
 
 
     public enum QueryEnumMainActivity implements QueryEnum {

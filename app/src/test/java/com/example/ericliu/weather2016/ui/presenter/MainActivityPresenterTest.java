@@ -31,6 +31,10 @@ public class MainActivityPresenterTest {
     @Mock
     private MainActivityViewModel mViewModel;
 
+
+    @Mock
+    private MainActivityViewModel.WeatherRequestResult mWeatherRequestResult;
+
     private MainActivityPresenter mPresenter;
     private String city = "Adelaide";
 
@@ -54,10 +58,10 @@ public class MainActivityPresenterTest {
 
     @Test
     public void testOnUpdateComplete() throws Exception {
-        when(mViewModel.getRequestStatus(MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER)).thenReturn(RequestStatus.SUCESS);
-        when(mViewModel.getCity()).thenReturn(city);
+        when(mWeatherRequestResult.getRequestStatus()).thenReturn(RequestStatus.SUCESS);
+        when(mWeatherRequestResult.getCity()).thenReturn(city);
 
-        mPresenter.onUpdateComplete(mViewModel, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER);
+        mPresenter.onUpdateComplete(mWeatherRequestResult, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER);
 
         verify(mHomepageCallbacks).showCityName(city);
 

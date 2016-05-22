@@ -22,7 +22,7 @@ public class StubPresenter implements Presenter {
     }
 
     @Override
-    public void onUpdateComplete(ViewModel viewModel, ViewModel.QueryEnum query) {
+    public void onUpdateComplete(RequestResult requestResult, ViewModel.QueryEnum query) {
 
     }
 

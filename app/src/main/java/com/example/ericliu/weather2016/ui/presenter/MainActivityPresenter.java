@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.example.ericliu.weather2016.framework.mvp.DisplayView;
+import com.example.ericliu.weather2016.framework.mvp.RequestResult;
 import com.example.ericliu.weather2016.framework.mvp.RequestStatus;
 import com.example.ericliu.weather2016.framework.mvp.ViewModel;
 import com.example.ericliu.weather2016.framework.mvp.base.BasePresenter;
@@ -14,7 +15,6 @@ import com.example.ericliu.weather2016.ui.viewmodel.MainActivityViewModel;
  * Created by ericliu on 12/04/2016.
  */
 public class MainActivityPresenter extends BasePresenter {
-    public static final String ARG_CITY_NAME = "arg.city.name";
 
     protected HomepageCallbacks mDisplayView;
 
@@ -41,7 +41,7 @@ public class MainActivityPresenter extends BasePresenter {
     @Override
     public void loadInitialData(Bundle args, boolean isConfigurationChange) {
         if (isConfigurationChange) {
-            onUpdateComplete(mModel, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER);
+            onUpdateComplete(mModel.getRequestResult(MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER), MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER);
         } else {
             mDisplayView.showProgressBar();
             mModel.onStartModelUpdate(0, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER, args);
@@ -50,28 +50,31 @@ public class MainActivityPresenter extends BasePresenter {
 
 
     @Override
-    public void onUpdateComplete(ViewModel viewModel, ViewModel.QueryEnum query) {
+    public void onUpdateComplete(RequestResult requestResult, ViewModel.QueryEnum query) {
 
         if (query instanceof MainActivityViewModel.QueryEnumMainActivity) {
-            MainActivityViewModel.QueryEnumMainActivity queryEnum = (MainActivityViewModel.QueryEnumMainActivity) query;
-            MainActivityViewModel mainActivityViewModel = (MainActivityViewModel) viewModel;
+
+            if (requestResult == null) {
+                return;
+            }
+            MainActivityViewModel.WeatherRequestResult weatherRequestResult = (MainActivityViewModel.WeatherRequestResult) requestResult;
 
             if (MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER == query) {
-                RequestStatus requestStatus = mainActivityViewModel.getRequestStatus(MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER);
+                RequestStatus requestStatus = weatherRequestResult.getRequestStatus();
                 if (requestStatus == RequestStatus.SUCESS) {
                     mDisplayView.hideProgressBar();
 
-                    handleWeatherUpdate(mainActivityViewModel);
+                    handleWeatherUpdate(weatherRequestResult);
                 } else if (requestStatus == RequestStatus.FAILED) {
 
-                    Throwable throwable = mainActivityViewModel.getThrowable();
+                    Throwable throwable = weatherRequestResult.getThrowable();
                     String errorMessage = throwable.getMessage();
 
                     mDisplayView.hideProgressBar();
                     mDisplayView.showDialog(errorMessage);
 
                 } else {
-                    handleWeatherUpdate(mainActivityViewModel);
+                    handleWeatherUpdate(weatherRequestResult);
                 }
 
             }
@@ -83,17 +86,17 @@ public class MainActivityPresenter extends BasePresenter {
 
     }
 
-    private void handleWeatherUpdate(MainActivityViewModel viewModel) {
-        if (viewModel.getRequestStatus(MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER) == RequestStatus.LOADING) {
+    private void handleWeatherUpdate(MainActivityViewModel.WeatherRequestResult weatherRequestResult) {
+        if (weatherRequestResult.getRequestStatus() == RequestStatus.LOADING) {
 
             mDisplayView.showProgressBar();
 
         } else {
 
-            String city = viewModel.getCity();
+            String city = weatherRequestResult.getCity();
             mDisplayView.showCityName(city);
 
-            String weatherCondition = viewModel.getWeatherCondition();
+            String weatherCondition = weatherRequestResult.getWeatherCondition();
             mDisplayView.showWeatherCondition(weatherCondition);
         }
     }

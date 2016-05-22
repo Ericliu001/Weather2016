@@ -18,10 +18,12 @@ public interface ViewModel {
      * @param presenterId - the id of the Presenter which is calling this method
      * @param args
      */
-    void onStartModelUpdate(int presenterId, QueryEnum update, @Nullable Bundle args);
+    void onStartModelUpdate(int presenterId, QueryEnum queryEnum, @Nullable Bundle args);
 
 
-    RequestStatus getRequestStatus(QueryEnum update);
+
+    RequestResult getRequestResult(QueryEnum queryEnum);
+
 
     void setPresenter(int presenterId, Presenter presenter);
 

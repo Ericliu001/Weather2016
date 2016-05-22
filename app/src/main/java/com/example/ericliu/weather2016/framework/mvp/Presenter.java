@@ -24,10 +24,10 @@ public interface Presenter {
     /**
      * a callback for ViewModel to pass back the data when it's loaded.
      *
-     * @param viewModel
+     * @param requestResult
      * @param query
      */
-    void onUpdateComplete(ViewModel viewModel, ViewModel.QueryEnum query);
+    void onUpdateComplete(RequestResult requestResult, ViewModel.QueryEnum query);
 
 
 
