@@ -68,3 +68,8 @@ dependencies {
     // Set this dependency to build and run UI Automator tests
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 }
+
+
+//configurations.all {
+//    resolutionStrategy.force 'asm:asm-all:3.3.1', 'commons-io:commons-io:1.4'
+//}

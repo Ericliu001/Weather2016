@@ -1,7 +1,6 @@
 package com.example.ericliu.weather2016.framework.mvp;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 /**
  * Created by Eric Liu on 12/01/2016.
@@ -30,7 +29,6 @@ public interface Presenter {
      */
     void onUpdateComplete(ViewModel viewModel, ViewModel.QueryEnum query);
 
-    void onUserAction(UserActionEnum action, @Nullable Bundle args);
 
 
     void onViewCreated();
@@ -40,12 +38,6 @@ public interface Presenter {
      */
     void onViewDestroyed();
 
-    /**
-     * Represents an action in the {@link DisplayView} performed by the user, for example when the
-     * user clicks a specific button.
-     */
-    interface UserActionEnum {
-    }
 
 
 }

@@ -1,7 +1,6 @@
 package com.example.ericliu.weather2016.framework.mvp;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 /**
  * Created by ericliu on 27/01/2016.
@@ -27,10 +26,6 @@ public class StubPresenter implements Presenter {
 
     }
 
-    @Override
-    public void onUserAction(UserActionEnum action, @Nullable Bundle args) {
-
-    }
 
     @Override
     public void onViewCreated() {

@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.not;
 @LargeTest
 public class SearchWeatherTest {
 
-    private  String cityName = "New York";
+    private  String cityName = "Adelaide";
 
 
     @Rule

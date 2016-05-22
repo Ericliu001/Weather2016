@@ -1,7 +1,6 @@
 package com.example.ericliu.weather2016.ui.presenter;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.example.ericliu.weather2016.framework.mvp.DisplayView;
@@ -16,8 +15,6 @@ import com.example.ericliu.weather2016.ui.viewmodel.MainActivityViewModel;
  */
 public class MainActivityPresenter extends BasePresenter {
     public static final String ARG_CITY_NAME = "arg.city.name";
-    public static final int
-            SHOW_PROGRESS_BAR = 2, HIDE_PROGRESS_BAR = 3, SHOW_WEATHER_CONDITION = 4, SHOW_CITY_NAME = 5, SHOW_DIALOG = 6;
 
     protected HomepageCallbacks mDisplayView;
 
@@ -47,7 +44,7 @@ public class MainActivityPresenter extends BasePresenter {
             onUpdateComplete(mModel, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER);
         } else {
             mDisplayView.showProgressBar();
-            mModel.onStartModelUpdate(0, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER,args);
+            mModel.onStartModelUpdate(0, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER, args);
         }
     }
 
@@ -101,35 +98,17 @@ public class MainActivityPresenter extends BasePresenter {
         }
     }
 
-    @Override
-    public void onUserAction(UserActionEnum action, @Nullable Bundle args) {
-        if (action instanceof UserActionEnumMainActivity) {
-            UserActionEnumMainActivity userAction = (UserActionEnumMainActivity) action;
 
-            if (UserActionEnumMainActivity.BUTTON_CLICKED == userAction) {
-                String city = args.getString(ARG_CITY_NAME);
-                if (!TextUtils.isEmpty(city)) {
-                    WeatherSpecification specification = new WeatherSpecification();
-                    specification.setCityName(city);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(WeatherSpecification.ARG_WEATHER_SPECIFICATION, specification);
-                    mModel.onStartModelUpdate(0, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER, bundle);
+    public void onSearchButtonClicked(String city) {
+        if (!TextUtils.isEmpty(city)) {
+            WeatherSpecification specification = new WeatherSpecification();
+            specification.setCityName(city);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(WeatherSpecification.ARG_WEATHER_SPECIFICATION, specification);
+            mModel.onStartModelUpdate(0, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER, bundle);
 
-                    mDisplayView.showProgressBar();
-                }
-            }
-
-
-        } else {
-            throw new IllegalArgumentException("This action " + action + " is not handled here.");
+            mDisplayView.showProgressBar();
         }
-
-
-    }
-
-
-    public enum UserActionEnumMainActivity implements UserActionEnum {
-        BUTTON_CLICKED;
     }
 
 

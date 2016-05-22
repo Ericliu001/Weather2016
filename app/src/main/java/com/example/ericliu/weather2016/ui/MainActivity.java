@@ -2,6 +2,7 @@ package com.example.ericliu.weather2016.ui;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -11,19 +12,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ericliu.weather2016.R;
-import com.example.ericliu.weather2016.ui.base.DisplayViewActivity;
+import com.example.ericliu.weather2016.framework.mvp.Presenter;
 import com.example.ericliu.weather2016.ui.presenter.MainActivityPresenter;
 import com.example.ericliu.weather2016.ui.viewmodel.MainActivityViewModel;
 import com.example.ericliu.weather2016.util.NetworkUtil;
 
-public class MainActivity extends DisplayViewActivity implements MainActivityPresenter.HomepageCallbacks{
+public class MainActivity extends AppCompatActivity implements MainActivityPresenter.HomepageCallbacks{
     private static final String VIEW_MODEL_TAG = "main.activity.viewmodel";
 
     private EditText etCityName;
     private Button btnSearchWeatherCondition;
     private TextView tvCityName, tvWeatherCondition;
     private ProgressBar mProgressBar;
-
+    private MainActivityPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +65,8 @@ public class MainActivity extends DisplayViewActivity implements MainActivityPre
                 String city = etCityName.getText().toString();
                 if (!TextUtils.isEmpty(city)) {
 
-                    Bundle args = new Bundle();
-                    args.putString(MainActivityPresenter.ARG_CITY_NAME, city);
-                    mPresenter.onUserAction(MainActivityPresenter.UserActionEnumMainActivity.BUTTON_CLICKED, args);
+                    mPresenter.onSearchButtonClicked(city);
+
                 } else {
                     Toast.makeText(MainActivity.this, "city name can't be empty!", Toast.LENGTH_SHORT).show();
                 }
@@ -125,4 +125,8 @@ public class MainActivity extends DisplayViewActivity implements MainActivityPre
     }
 
 
+    @Override
+    public void setPresenter(Presenter presenter) {
+        mPresenter = (MainActivityPresenter) presenter;
+    }
 }
