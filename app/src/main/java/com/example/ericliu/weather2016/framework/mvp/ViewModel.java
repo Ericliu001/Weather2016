@@ -8,14 +8,6 @@ import android.support.annotation.Nullable;
  */
 public interface ViewModel {
 
-    /**
-     * this method is called when data is needed for fill the just created Views,
-     * it can be triggered by Configuration Changes as well
-     *
-     * @param presenterId
-     * @param args
-     */
-    void onInitialModelUpdate(int presenterId, @Nullable Bundle args);
 
     /**
      * * Updates this ViewModel according to a user {@code action} and {@code args}.

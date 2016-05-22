@@ -31,9 +31,6 @@ public class RemoteWeatherRepo implements Repository<WeatherResult> {
     Application mApplication;
 
     @Inject
-    DbWeatherRepo mDBWeatherRepo;
-
-    @Inject
     Gson mGson;
 
 

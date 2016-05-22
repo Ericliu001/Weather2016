@@ -3,8 +3,8 @@ package com.example.ericliu.weather2016.dagger.component;
 import com.example.ericliu.weather2016.dagger.module.AppModule;
 import com.example.ericliu.weather2016.dagger.module.NetModule;
 import com.example.ericliu.weather2016.dagger.module.RepoModule;
+import com.example.ericliu.weather2016.repo.FakeRemoteWeatherRepo;
 import com.example.ericliu.weather2016.repo.RemoteWeatherRepo;
-import com.example.ericliu.weather2016.ui.MainActivity;
 import com.example.ericliu.weather2016.ui.viewmodel.MainActivityViewModel;
 
 import javax.inject.Singleton;
@@ -18,7 +18,7 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, RepoModule.class, NetModule.class} )
 public interface RepoComponent {
-    void inject(MainActivity mainActivity);
     void inject(RemoteWeatherRepo repo);
+    void inject(FakeRemoteWeatherRepo repo);
     void inject(MainActivityViewModel mainActivityViewModel);
 }

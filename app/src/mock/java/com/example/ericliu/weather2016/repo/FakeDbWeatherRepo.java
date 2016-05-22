@@ -1,6 +1,5 @@
 package com.example.ericliu.weather2016.repo;
 
-import com.example.ericliu.weather2016.framework.repository.Repository;
 import com.example.ericliu.weather2016.framework.repository.Specification;
 import com.example.ericliu.weather2016.model.WeatherResult;
 
@@ -9,7 +8,7 @@ import java.util.List;
 /**
  * Created by ericliu on 12/04/2016.
  */
-public class DbWeatherRepo implements Repository<WeatherResult> {
+public class FakeDbWeatherRepo extends DbWeatherRepo {
 
     @Override
     public WeatherResult get(Specification specification) {

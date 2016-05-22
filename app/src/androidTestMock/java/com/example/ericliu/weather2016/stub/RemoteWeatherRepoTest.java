@@ -6,6 +6,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.example.ericliu.weather2016.model.WeatherResult;
 import com.example.ericliu.weather2016.model.WeatherSpecification;
+import com.example.ericliu.weather2016.repo.FakeRemoteWeatherRepo;
 import com.example.ericliu.weather2016.repo.RemoteWeatherRepo;
 
 import org.junit.After;
@@ -29,7 +30,7 @@ public class RemoteWeatherRepoTest {
 
     @Before
     public void setUp() throws Exception {
-        repo = new RemoteWeatherRepo();
+        repo = new FakeRemoteWeatherRepo();
     }
 
     @After

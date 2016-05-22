@@ -47,7 +47,7 @@ public class MainActivityPresenter extends BasePresenter {
             onUpdateComplete(mModel, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER);
         } else {
             mDisplayView.showProgressBar();
-            mModel.onInitialModelUpdate(0, args);
+            mModel.onStartModelUpdate(0, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER,args);
         }
     }
 

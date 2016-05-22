@@ -70,14 +70,10 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
         mThrowable = null;
     }
 
-    @Override
-    public void onInitialModelUpdate(int presenterId, @Nullable Bundle args) {
-
-        onStartModelUpdate(presenterId, QueryEnumMainActivity.UPDATE_WEATHER, args);
-    }
 
     @Override
     public void onStartModelUpdate(int presenterId, QueryEnum update, @Nullable Bundle args) {
+
         mRequestStatus = RequestStatus.LOADING;
 
         if (update instanceof QueryEnumMainActivity) {
