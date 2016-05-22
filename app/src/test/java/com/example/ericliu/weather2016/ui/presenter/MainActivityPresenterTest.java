@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -66,6 +67,20 @@ public class MainActivityPresenterTest {
         verify(mHomepageCallbacks).showCityName(city);
 
     }
+
+
+    @Test
+    public void testFailCase(){
+        when(mWeatherRequestResult.getRequestStatus()).thenReturn(RequestStatus.FAILED);
+        when(mWeatherRequestResult.getThrowable()).thenReturn(new Exception("This is a mocked exception!"));
+
+        mPresenter.onUpdateComplete(mWeatherRequestResult, MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER);
+
+        verify(mHomepageCallbacks).hideProgressBar();
+        verify(mHomepageCallbacks).showDialog(anyString());
+    }
+
+
 
     @Test
     public void testPreferences(){

@@ -1,4 +1,6 @@
-package com.example.ericliu.weather2016.ui.viewmodel;
+package com.example.ericliu.weather2016;
+
+import com.example.ericliu.weather2016.ui.viewmodel.MainActivityViewModel;
 
 import org.junit.After;
 import org.junit.Before;
