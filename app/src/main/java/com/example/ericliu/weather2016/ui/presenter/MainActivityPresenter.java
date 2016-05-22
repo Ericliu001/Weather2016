@@ -57,7 +57,7 @@ public class MainActivityPresenter extends BasePresenter {
             MainActivityViewModel mainActivityViewModel = (MainActivityViewModel) viewModel;
 
             if (MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER == query) {
-                RequestStatus requestStatus = mainActivityViewModel.getRequestStatus();
+                RequestStatus requestStatus = mainActivityViewModel.getRequestStatus(MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER);
                 if (requestStatus == RequestStatus.SUCESS) {
                     mDisplayView.hideProgressBar();
 
@@ -84,7 +84,7 @@ public class MainActivityPresenter extends BasePresenter {
     }
 
     private void handleWeatherUpdate(MainActivityViewModel viewModel) {
-        if (viewModel.getRequestStatus() == RequestStatus.LOADING) {
+        if (viewModel.getRequestStatus(MainActivityViewModel.QueryEnumMainActivity.UPDATE_WEATHER) == RequestStatus.LOADING) {
 
             mDisplayView.showProgressBar();
 

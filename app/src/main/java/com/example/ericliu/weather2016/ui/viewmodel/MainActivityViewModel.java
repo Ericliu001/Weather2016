@@ -131,7 +131,7 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
 
     @Override
     public RequestStatus getRequestStatus(QueryEnum update) {
-        return null;
+        return mRequestStatus;
     }
 
     @Override
@@ -176,9 +176,7 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
     }
 
 
-    public RequestStatus getRequestStatus() {
-        return mRequestStatus;
-    }
+
 
     public enum QueryEnumMainActivity implements QueryEnum {
         UPDATE_WEATHER;
