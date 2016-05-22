@@ -6,12 +6,13 @@ There are 2 productFlavors: prod is normal flavor which retrieves real data from
 
 
 
-    productFlavors {
+     productFlavors {
         mock {
             applicationIdSuffix = ".mock"
+            versionName "1.0-mock"
         }
         prod {
-
+            versionName "1.0-prod"
         }
     }
 
