@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.example.ericliu.weather2016.R;
 import com.example.ericliu.weather2016.application.MyApplication;
-import com.example.ericliu.weather2016.framework.repository.Repository;
 import com.example.ericliu.weather2016.framework.repository.RepositoryResult;
 import com.example.ericliu.weather2016.framework.repository.Specification;
 import com.example.ericliu.weather2016.model.JSONHandler;
@@ -23,20 +22,18 @@ import javax.inject.Inject;
 /**
  * Created by ericliu on 12/04/2016.
  */
-public class RemoteWeatherRepo implements Repository<WeatherResult> {
+public class FakeRemoteWeatherRepo extends RemoteWeatherRepo {
 
-    private static final String TAG = RemoteWeatherRepo.class.getSimpleName();
+    private static final String TAG = FakeRemoteWeatherRepo.class.getSimpleName();
     @Inject
     Application mApplication;
 
-    @Inject
-    DbWeatherRepo mDBWeatherRepo;
 
     @Inject
     Gson mGson;
 
 
-    public RemoteWeatherRepo() {
+    public FakeRemoteWeatherRepo() {
         MyApplication.getComponent().inject(this);
     }
 

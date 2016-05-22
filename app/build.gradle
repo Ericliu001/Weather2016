@@ -25,9 +25,8 @@ android {
             applicationIdSuffix = ".mock"
             versionName "1.0-mock"
         }
-        full {
-            applicationIdSuffix = ".full"
-            versionName "1.0-full"
+        prod {
+            versionName "1.0-prod"
         }
     }
 }
@@ -53,6 +52,7 @@ dependencies {
 
     // Needed specifically for annotations in Java 1.6
     compile 'org.glassfish:javax.annotation:10.0-b28'
+    compile "com.android.support.test.espresso:espresso-idling-resource:2.2.1"
 
 
     testCompile 'junit:junit:4.12'
@@ -62,6 +62,9 @@ dependencies {
     androidTestCompile 'com.android.support.test:rules:0.4'
     // Set this dependency to build and run Espresso tests
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+
+//    androidTestCompile "com.android.support.test.espresso:espresso-contrib:2.2.1"
+
     // Set this dependency to build and run UI Automator tests
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 }

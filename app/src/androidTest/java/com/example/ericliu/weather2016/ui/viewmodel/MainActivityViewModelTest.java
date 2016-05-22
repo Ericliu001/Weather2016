@@ -1,106 +1,49 @@
 package com.example.ericliu.weather2016.ui.viewmodel;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.test.runner.AndroidJUnit4;
-
-import com.example.ericliu.weather2016.framework.mvp.DisplayView;
-import com.example.ericliu.weather2016.framework.mvp.Presenter;
-import com.example.ericliu.weather2016.framework.mvp.ViewModel;
-import com.example.ericliu.weather2016.framework.repository.Specification;
-import com.example.ericliu.weather2016.model.Weather;
-import com.example.ericliu.weather2016.model.WeatherResult;
-import com.example.ericliu.weather2016.model.WeatherSpecification;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import static org.junit.Assert.assertEquals;
 
 /**
- * Created by ericliu on 12/04/2016.
+ * Created by ericliu on 22/05/2016.
  */
-@RunWith(AndroidJUnit4.class)
-public class MainActivityViewModelTest implements Presenter{
+public class MainActivityViewModelTest {
 
-
-    MainActivityViewModel mModel;
-    private Bundle args;
-    private Specification mSpecification;
+    MainActivityViewModel mMainActivityViewModel;
 
     @Before
     public void setUp() throws Exception {
-        mModel = new MainActivityViewModel();
-        mModel.setPresenter(0, this);
-
-        args = new Bundle();
-        // Data can be passed to the service via the Intent.
-        WeatherSpecification specification = new WeatherSpecification();
-        specification.setCityName("Sydney");
-        mSpecification = specification;
-
-        args.putSerializable(WeatherSpecification.ARG_WEATHER_SPECIFICATION, specification);
+        mMainActivityViewModel = new MainActivityViewModel();
     }
 
     @After
     public void tearDown() throws Exception {
-        mModel = null;
+        mMainActivityViewModel = null;
+
     }
-
-
-
 
     @Test
-    public void testOnEvent() throws Exception {
-        WeatherResult weatherResult = new WeatherResult();
-        weatherResult.name = "Beijing";
-        Weather[] weather = new Weather[1];
-        weather[0] = new Weather();
-        weather[0].setDescription("Sunny");
-        weatherResult.weather = weather;
-
-
-        mModel.onResultEvent(weatherResult);
-    }
-
-
-    @Override
-    public void setViewModel(ViewModel viewModel) {
+    public void testOnStartModelUpdate() throws Exception {
 
     }
 
-    @Override
-    public void setDisplayView(DisplayView view) {
+    @Test
+    public void testSetPresenter() throws Exception {
 
     }
 
-    @Override
-    public void loadInitialData(Bundle args, boolean isConfigurationChange) {
+    @Test
+    public void testOnResultEvent() throws Exception {
 
     }
 
-    @Override
-    public void onUpdateComplete(ViewModel viewModel, ViewModel.QueryEnum query) {
-        MainActivityViewModel model = (MainActivityViewModel) viewModel;
-
-        assertEquals(model.getCity(), "Beijing");
+    @Test
+    public void testGetCity() throws Exception {
 
     }
 
-    @Override
-    public void onUserAction(UserActionEnum action, @Nullable Bundle args) {
-
-    }
-
-    @Override
-    public void onViewCreated() {
-
-    }
-
-    @Override
-    public void onViewDestroyed() {
+    @Test
+    public void testGetWeatherCondition() throws Exception {
 
     }
 }

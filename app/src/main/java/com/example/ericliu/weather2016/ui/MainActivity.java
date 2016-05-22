@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ericliu.weather2016.R;
-import com.example.ericliu.weather2016.application.MyApplication;
 import com.example.ericliu.weather2016.ui.base.DisplayViewActivity;
 import com.example.ericliu.weather2016.ui.presenter.MainActivityPresenter;
 import com.example.ericliu.weather2016.ui.viewmodel.MainActivityViewModel;
@@ -30,7 +29,6 @@ public class MainActivity extends DisplayViewActivity implements MainActivityPre
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MyApplication.getComponent().inject(this);
 
 
         setupPresenter(savedInstanceState);
