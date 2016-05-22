@@ -1,5 +1,7 @@
 package com.example.ericliu.weather2016.ui.presenter;
 
+import android.content.SharedPreferences;
+
 import com.example.ericliu.weather2016.framework.mvp.RequestStatus;
 import com.example.ericliu.weather2016.ui.viewmodel.MainActivityViewModel;
 
@@ -9,6 +11,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -17,9 +20,13 @@ import static org.mockito.Mockito.when;
  */
 public class MainActivityPresenterTest {
 
+    private static final String PREF_IS_HAPPY = "pref.is.happy";
     @Mock
     private MainActivityPresenter.HomepageCallbacks mHomepageCallbacks;
 
+
+    @Mock
+    SharedPreferences mSharedPreferences;
 
     @Mock
     private MainActivityViewModel mViewModel;
@@ -34,8 +41,6 @@ public class MainActivityPresenterTest {
         // Mockito has a very convenient way to inject mocks by using the @Mock annotation. To
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this);
-
-
 
         mPresenter = new MainActivityPresenter(0, mHomepageCallbacks, mViewModel);
 
@@ -56,6 +61,14 @@ public class MainActivityPresenterTest {
 
         verify(mHomepageCallbacks).showCityName(city);
 
+    }
+
+    @Test
+    public void testPreferences(){
+        when(mSharedPreferences.getBoolean(PREF_IS_HAPPY, false)).thenReturn(true);
+
+        boolean isHappy = mSharedPreferences.getBoolean(PREF_IS_HAPPY, false);
+        assertTrue("The shared preference value should be false.", isHappy);
     }
 
     @Test
