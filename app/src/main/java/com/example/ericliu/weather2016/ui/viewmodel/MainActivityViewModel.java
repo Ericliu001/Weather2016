@@ -12,6 +12,7 @@ import com.example.ericliu.weather2016.framework.mvp.ViewModel;
 import com.example.ericliu.weather2016.model.WeatherResult;
 import com.example.ericliu.weather2016.model.WeatherSpecification;
 import com.example.ericliu.weather2016.repo.RemoteWeatherRepo;
+import com.example.ericliu.weather2016.util.EspressoIdlingResource;
 
 import java.util.concurrent.Callable;
 
@@ -103,6 +104,7 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
             }
         });
 
+        EspressoIdlingResource.increment();
         mWeatherResultSubscripton = weatherResultSingle
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -111,6 +113,7 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
                     public void onSuccess(WeatherResult value) {
                         mRequestStatus = RequestStatus.SUCESS;
                         onResultEvent(value);
+                        EspressoIdlingResource.decrement();
                     }
 
                     @Override
@@ -120,6 +123,8 @@ public class MainActivityViewModel extends Fragment implements ViewModel {
                         mThrowable = error;
                         Log.e(TAG, error.getMessage());
                         mPresenter.onUpdateComplete(MainActivityViewModel.this, QueryEnumMainActivity.UPDATE_WEATHER);
+                        EspressoIdlingResource.decrement();
+
                     }
                 });
     }
