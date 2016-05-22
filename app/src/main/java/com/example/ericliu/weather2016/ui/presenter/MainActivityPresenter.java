@@ -68,10 +68,12 @@ public class MainActivityPresenter extends BasePresenter {
                 } else if (requestStatus == RequestStatus.FAILED) {
 
                     Throwable throwable = weatherRequestResult.getThrowable();
-                    String errorMessage = throwable.getMessage();
+                    if (throwable != null) {
+                        String errorMessage = throwable.getMessage();
+                        mDisplayView.showDialog(errorMessage);
+                    }
 
                     mDisplayView.hideProgressBar();
-                    mDisplayView.showDialog(errorMessage);
 
                 } else {
                     handleWeatherUpdate(weatherRequestResult);
